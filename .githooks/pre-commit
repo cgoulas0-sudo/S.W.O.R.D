@@ -1,0 +1,21 @@
+#!/bin/sh
+# RHC HWB-01 local BUILD write fence (pre-commit).
+#
+# Refuses ordinary `git commit` unless every staged tracked change is
+# authorized by the current unique open branch-bound JOHNNY machine
+# Surface Budget. Fails closed: if no interpreter or validator can run,
+# the commit is refused. Bypassing this hook locally never authorizes a
+# write; the trusted server check grades the exact PR head/base.
+
+set -eu
+
+if command -v python >/dev/null 2>&1; then
+  PY=python
+elif command -v python3 >/dev/null 2>&1; then
+  PY=python3
+else
+  echo "WRITE BOUNDARY REFUSED: no python interpreter available" >&2
+  exit 1
+fi
+
+exec "$PY" scripts/validate_write_boundary.py check-staged

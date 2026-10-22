@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "system": "<Economy / Business System Name>",
+  "status": "template_inert_until_explicitly_instantiated",
+  "currency": null,
+  "roll_table": {},
+  "catastrophic_severity": {},
+  "persistent_effects_policy": {
+    "storage": "state/live_status.json#persistent_effects",
+    "duration_unit": null,
+    "trigger_day_counts": null,
+    "application_order": null,
+    "expired_effect_behavior": null
+  },
+  "numerical_discretion": {
+    "percentage_range_without_selector": null,
+    "percentage_range_with_explicit_rng_selector": null,
+    "dm_selected_numeric_result": null,
+    "authored_numeric_mechanic_rule": "Define the mechanic before resolution. Do not choose a result after seeing the desired outcome."
+  },
+  "reputation": {
+    "score_bounds": { "min": 0, "max": 100 },
+    "consequence_scale": {
+      "minor": 1,
+      "meaningful": 2,
+      "major": 5,
+      "city_defining": 10
+    },
+    "high_standing": {
+      "threshold": 80,
+      "positive_gain_multiplier": 0.5,
+      "rounding": "floor"
+    },
+    "tiers": [
+      { "name": "wary", "min": 0, "max": 29 },
+      { "name": "neutral", "min": 30, "max": 59 },
+      { "name": "recognized", "min": 60, "max": 79 },
+      { "name": "institutional", "min": 80, "max": 94 },
+      { "name": "key_civic_link", "min": 95, "max": 99 },
+      { "name": "legendary", "min": 100, "max": 100 }
+    ]
+  },
+  "fund_policy": {
+    "enabled": false,
+    "default_positive_profit_allocation": {
+      "hq_share": 0.2,
+      "development_share": 0.7,
+      "recovery_share": 0.1
+    },
+    "recovery_waterfall": ["own_recovery", "hq_recovery", "uncovered_loss"],
+    "deficit_coverage": null,
+    "development_fund_auto_draw": false
+  },
+  "business_units": {},
+  "logistics": {
+    "enabled": false,
+    "warehouse_capacity": null,
+    "transport_capacity": null,
+    "minimum_departure_load": null,
+    "mission_duration_rule": null,
+    "auto_departure": null,
+    "departure_preconditions": []
+  },
+  "daily_events": {
+    "enabled": false,
+    "die": null,
+    "table": {}
+  },
+  "business_card_schema": {
+    "name": "<Business Name>",
+    "currency": "gp | sp | cp",
+    "precision": "<non-negative integer decimal places>",
+    "rounding": "half_up | half_even | floor | ceil",
+    "revenue_mode": "rolled | fixed",
+    "revenue_base": "<number >= 0; required only when revenue_mode is rolled>",
+    "fixed_revenue": "<number >= 0; required only when revenue_mode is fixed>",
+    "fixed_daily_cost": "<number >= 0; required fixed daily operating cost>",
+    "facility_value": "<number >= 0; required for rolled Businesses; the facility value repair costs are later derived from; the planner preserves it and performs no repair arithmetic; a fixed Business rejects the key by presence (including an explicit null) and omits it from the normalized plan>",
+    "funds_enabled": "<boolean; whether Business fund accounting applies (distinct from current active state)>",
+    "parent": "<business id or null>",
+    "subsidiaries": ["<business id>"],
+    "economic_roll": {
+      "die": "1d20",
+      "bands": [
+        { "min": 1, "max": 1, "outcome": "catastrophic" },
+        { "min": 2, "max": 5, "multiplier": "<number>" },
+        { "min": 20, "max": 20, "multiplier": "<number>" }
+      ]
+    },
+    "repair": {
+      "severity_die": "1d6",
+      "percent_selector": "<optional dice notation or null>",
+      "severity_bands": [
+        {
+          "min": 1,
+          "max": 2,
+          "severity": "<label>",
+          "cost_percent_min": "<number>",
+          "cost_percent_max": "<number>",
+          "revenue_multiplier": "<number>",
+          "duration_die": "null | 1d3 | 1d6"
+        }
+      ]
+    },
+    "reputation_consequences": {
+      "economic_nat20": { "consequence_class": "<scale key>", "direction": "positive" },
+      "repair_nat1_severity": [
+        { "min": 1, "max": 3, "consequence_class": "<scale key>", "direction": "negative" }
+      ]
+    },
+    "internal_sources": [
+      "<business id whose same-day realized sales/revenue is this Business's raw-material cost>"
+    ],
+    "byproducts": [
+      {
+        "product": "<product>",
+        "source_quantity": "<base daily source quantity>",
+        "waste_ratio": "<number in [0, 1]>",
+        "yield": "<number in [0, 1]>",
+        "disposition": "<explicit disposition>",
+        "sold_on_production_day": false
+      }
+    ],
+    "narrative_event": {
+      "die": "1d20",
+      "table": {}
+    }
+  },
+  "rules": [
+    "This template creates no company, money, workforce, assets, reputation or income in RHC canon.",
+    "Create a separately named configuration file before activating an economy mechanic.",
+    "Populate only DM-approved values and mechanics.",
+    "Mutable financial/resource state belongs in state/live_status.json#businesses (active/disabled state, current fund balances, current stock and Business-owned duration effects) or a future explicitly authorized dedicated state file.",
+    "Random results must be resolved by the campaign's approved RNG procedure rather than selected for a preferred outcome.",
+    "Business Cards are authoring declarations only. POST-EV2-12.1 plans and validates them; it never rolls dice, resolves money, applies Reputation, or persists state.",
+    "Every Business that resolves operating economics declares an explicit revenue base (or fixed revenue) and a fixed daily cost.",
+    "A rolled Business declares an explicit finite non-negative facility_value in its declared currency: the repair-cost basis the later resolver multiplies by the selected repair percentage. The planner validates and preserves it exactly and never multiplies it; fixed Businesses carry no repair mechanic and declare no facility_value, rejecting the key by presence (including an explicit null) and omitting it from the normalized plan.",
+    "Whether a Business resolves today (active/disabled) is current state; funds_enabled is a separate configuration/policy fact. They are never the same fact.",
+    "A Business whose current state says active:false resolves nothing that day and produces no daily dice requests, regardless of its funds_enabled value.",
+    "A fund_policy is required whenever any Business declares funds_enabled:true, and it is retained in the normalized plan. The superseded negotiated supplier_agreements / suppliers pricing surfaces fail closed; internal_sources is the same-day source-cost authority.",
+    "The approved default positive-net allocation is 20% HQ / 70% Business Development / 10% Business Recovery; deficits and repair obligations cover own Recovery -> HQ Recovery -> uncovered loss, and the Development Fund is never auto-drawn.",
+    "Internal raw-material cost for an explicitly linked source Business equals that source Business's actual realized same-day sales/revenue. Negotiated buyer-specific supplier pricing is not the approved internal cost mechanic.",
+    "The business_units map and internal_sources links are inert until a named configuration is explicitly instantiated for RHC."
+  ]
+}

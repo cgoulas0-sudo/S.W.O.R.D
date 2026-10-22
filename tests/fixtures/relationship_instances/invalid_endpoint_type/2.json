@@ -1,0 +1,6 @@
+{
+  "relationship_id": "bad-target",
+  "source_id": "character:test-parent",
+  "kind": "parent_of",
+  "target_id": "location:test-city"
+}

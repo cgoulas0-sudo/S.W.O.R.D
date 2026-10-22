@@ -1,0 +1,340 @@
+name: RT01 runtime foundation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - "scripts/runtime_published_mirror.py"
+      - "tests/rt01a/**"
+      - "tests/rt01b/**"
+      - "tests/rt01c/**"
+      - "tests/rt01d/**"
+      - "tests/rt01activation/**"
+      - "tests/rt02/**"
+      - "tests/rt03/**"
+      - "tests/rt04/**"
+      - "tests/ev210/**"
+      - "tests/ev211/**"
+      - "tests/ev213420/**"
+      - "tests/ev2131/**"
+      - "tests/ev2121/**"
+      - "tests/ev213/**"
+      - "tests/hwb02/**"
+      - "tests/post_ev2_1/**"
+      - "tests/post_ev2_2/**"
+      - "tests/post_ev2_3/**"
+      - "tests/post_ev2_4a/**"
+      - "tests/post_ev2_5/**"
+      - "tests/post_ev2_9/**"
+      - "tests/post_ev2_10/**"
+      - "tests/post_ev2_11/**"
+      - "tests/post_ev2_11_9/**"
+      - "tests/post_ev2_12/**"
+      - "tests/test_runtime_published_mirror.py"
+      - "requirements.txt"
+      - ".github/workflows/rt01-runtime.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - "scripts/runtime_published_mirror.py"
+      - "tests/rt01a/**"
+      - "tests/rt01b/**"
+      - "tests/rt01c/**"
+      - "tests/rt01d/**"
+      - "tests/rt01activation/**"
+      - "tests/rt02/**"
+      - "tests/rt03/**"
+      - "tests/rt04/**"
+      - "tests/ev210/**"
+      - "tests/ev211/**"
+      - "tests/ev213420/**"
+      - "tests/ev2131/**"
+      - "tests/ev2121/**"
+      - "tests/ev213/**"
+      - "tests/hwb02/**"
+      - "tests/post_ev2_1/**"
+      - "tests/post_ev2_2/**"
+      - "tests/post_ev2_3/**"
+      - "tests/post_ev2_4a/**"
+      - "tests/post_ev2_5/**"
+      - "tests/post_ev2_9/**"
+      - "tests/post_ev2_10/**"
+      - "tests/post_ev2_11/**"
+      - "tests/post_ev2_11_9/**"
+      - "tests/post_ev2_12/**"
+      - "tests/test_runtime_published_mirror.py"
+      - "requirements.txt"
+      - ".github/workflows/rt01-runtime.yml"
+
+# One DSN set shared by every isolated proof shard. Each shard job runs on its
+# own runner with its own PostgreSQL 15 (55432) and PostgreSQL 17 (55433)
+# service containers, so no two shards ever mutate the same disposable database.
+# The families still execute against exactly the same PostgreSQL versions and
+# DSN environment they used when RT01 was one serial pytest invocation.
+env:
+  RHC_RT01A_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT01B_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT01C_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT01D_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT02_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT03_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT04_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV210_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV211_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV213420_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV213420_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_EV2131_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV2131_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV21_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV21_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV22_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV22_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV23_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV23_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV24A_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV24A_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV25_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV25_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV29_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV29_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV210_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV210_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_POST_EV211_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_POST_EV211_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+  RHC_RT01_ACTIVATION_PG_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+
+jobs:
+  # Shard 1 of 4 — RT01 floor, campaign clock and the runtime mirror.
+  prove-runtime-floor:
+    name: RT01 runtime foundation (runtime floor)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      postgres17:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prove RT01/RT02 floor + runtime mirror on PostgreSQL 15/17 + real Git objects
+        run: >-
+          pytest
+          tests/rt01a
+          tests/rt01b
+          tests/rt01c
+          tests/rt01d
+          tests/rt01activation
+          tests/rt02
+          tests/test_runtime_published_mirror.py
+          -v
+      - name: Prove HWB-02 SAVE runtime authority on PostgreSQL 15/17 (separate process)
+        run: pytest tests/hwb02 -v
+
+  # Shard 2 of 4 — canonical Run read/reconciliation and the EV2-10 spine link.
+  prove-run-spine:
+    name: RT01 runtime foundation (run spine)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      postgres17:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prove RT03/RT04/EV2-10 on PostgreSQL 15/17 + real Git objects
+        run: >-
+          pytest
+          tests/rt03
+          tests/rt04
+          tests/ev210
+          -v
+
+  # Shard 3 of 4 — entity custody/state/timeline and the save-policy frontier.
+  prove-entity-timeline:
+    name: RT01 runtime foundation (entity + timeline)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      postgres17:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prove EV2-11/EV2-13.1/EV2-13.420 + POST-EV2-1/2 on PostgreSQL 15/17 + real Git objects
+        run: >-
+          pytest
+          tests/ev211
+          tests/ev2131
+          tests/ev213420
+          tests/post_ev2_2
+          tests/post_ev2_1
+          -v
+      - name: Prove EV2-12.1 / EV2-13 entity admission on PostgreSQL 15/17 (separate process)
+        run: pytest tests/ev2121 tests/ev213 -v
+
+  # Shard 4 of 4 — POST-EV2 runtime frontier (impact/temporal/search/vitals/rest/reputation).
+  prove-post-ev2-frontier:
+    name: RT01 runtime foundation (post-EV2 frontier)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      postgres17:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Prove POST-EV2-3/4A/5/9/10/11/11.9 on PostgreSQL 15/17 + real Git objects
+        run: >-
+          pytest
+          tests/post_ev2_3
+          tests/post_ev2_4a
+          tests/post_ev2_5
+          tests/post_ev2_9
+          tests/post_ev2_10
+          tests/post_ev2_11
+          tests/post_ev2_11_9
+          tests/post_ev2_12
+          -v
+
+  # Stable aggregate RT01 signal. Branch protection / merge gating consumes this
+  # one check name; it succeeds only when every required proof shard succeeds and
+  # fails whenever any shard fails, is cancelled or is otherwise not green.
+  prove-runtime-foundation:
+    name: prove-runtime-foundation
+    needs:
+      - prove-runtime-floor
+      - prove-run-spine
+      - prove-entity-timeline
+      - prove-post-ev2-frontier
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every RT01 proof shard to succeed
+        shell: bash
+        env:
+          RUNTIME_FLOOR: ${{ needs.prove-runtime-floor.result }}
+          RUN_SPINE: ${{ needs.prove-run-spine.result }}
+          ENTITY_TIMELINE: ${{ needs.prove-entity-timeline.result }}
+          POST_EV2_FRONTIER: ${{ needs.prove-post-ev2-frontier.result }}
+        run: |
+          set -euo pipefail
+          echo "RT01 shard results:"
+          echo "  runtime floor   : $RUNTIME_FLOOR"
+          echo "  run spine       : $RUN_SPINE"
+          echo "  entity+timeline : $ENTITY_TIMELINE"
+          echo "  post-EV2 front  : $POST_EV2_FRONTIER"
+          for result in \
+            "$RUNTIME_FLOOR" \
+            "$RUN_SPINE" \
+            "$ENTITY_TIMELINE" \
+            "$POST_EV2_FRONTIER"; do
+            if [ "$result" != "success" ]; then
+              echo "One or more required RT01 proof shards did not succeed." >&2
+              exit 1
+            fi
+          done

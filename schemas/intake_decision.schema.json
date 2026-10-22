@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_decision.schema.json",
+  "title": "RHC Canon Intake Decision",
+  "description": "Minimal repository-side sidecar decision record for Canon Intake (CI-02): one explicit human approve/reject decision for one CI-01 candidate. A decision is evidence of human intent only; it never means published, canon, reconciled, conflict-free, or runtime-applied, and it never mutates the referenced candidate's content or status (the candidate contract stays exactly extracted | classified; approved candidates also remain non-canon until a later promotion gate succeeds). Approval authority is explicitly human: AI may propose but never decide. Only a candidate currently represented as classified is decision-eligible; eligibility itself is enforced by scripts/validate_intake_decisions.py against the referenced CI-01 candidate batch, not by this schema. Grouping is a non-authoritative convenience label only: a grouped review is a container for multiple independent decisions, never one inherited outcome. Duplicate decision identity and more than one decision for the same candidate in one validated decision set fail closed; no durable cross-run idempotency storage, collision resolution, promotion route, SQL/runtime persistence, or canon mutation belongs to this contract (later Canon Intake gates and the existing Save Gateway).",
+  "type": "object",
+  "required": ["decision_id", "candidate_id", "outcome", "authority", "decided_by"],
+  "additionalProperties": false,
+  "properties": {
+    "decision_id": {
+      "description": "Stable, typed, set-unique decision identity: the prefix is always decision: followed by a lowercase slug. Stable identity is what makes deterministic duplicate/replay detection possible at the contract layer; a duplicate decision_id within one validated decision set fails closed.",
+      "type": "string",
+      "pattern": "^decision:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "candidate_id": {
+      "description": "Referenced CI-01 candidate identity, using the exact intake_candidate.schema.json grammar: candidate: followed by a lowercase slug. The decision references and never rewrites or stores the candidate; source/provenance truth stays attached through the referenced candidate.",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "outcome": {
+      "description": "The explicit human decision outcome: exactly approved or rejected. Both outcomes are equally non-canon: an approved candidate is not published, reconciled, or runtime-applied, and a rejected candidate remains non-canon and cannot be treated as truth.",
+      "type": "string",
+      "enum": ["approved", "rejected"]
+    },
+    "authority": {
+      "description": "Explicit human authority marker: exactly human. No AI or automated inference may approve or reject a candidate; AI may propose material, never decide it.",
+      "const": "human"
+    },
+    "decided_by": {
+      "description": "Required non-blank reference to the human authority who made this decision (for example the Dungeon Master or another named human). Blank or whitespace-only references are rejected so a decision can never silently lack an accountable human identity.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "note": {
+      "description": "Optional non-blank human note/reason for the decision.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "batch_label": {
+      "description": "Optional non-blank, non-authoritative grouping/batch label for human review convenience. A group is only a container for multiple independent decisions: it inherits no outcome, imposes no uniform outcome, and mixed approved/rejected outcomes in one labeled group are legal.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

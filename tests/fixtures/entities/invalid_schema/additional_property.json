@@ -1,0 +1,6 @@
+{
+  "entity_id": "character:test-extra-field",
+  "entity_type": "character",
+  "display_name": "Extra Property (fixture)",
+  "inventory": ["should not be here"]
+}

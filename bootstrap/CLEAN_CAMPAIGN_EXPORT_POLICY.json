@@ -1,0 +1,1687 @@
+{
+  "policy_version": 1,
+  "mission": "POST_EV2_Z_CLEAN_CAMPAIGN_CANVAS_V3",
+  "repository": "Nollie-gif/Rolling-High-Club",
+  "branch": "post-ev2/post-ev2-z-self-bootstrap-export",
+  "base_sha": "64260bc53575016a848283196c4b1bdd947cb5d4",
+  "dispositions": {
+    "COPY": "Reusable engine/runtime/mechanics/schema/validator/migration/control surface/selected reusable proof. Copied byte-for-byte from the exact Git blob with the Git file mode preserved. Never applied to a directory as a single unit.",
+    "EXCLUDE": "RHC campaign instance material, story/history, canaries, engineering history, or factory-only POST-EV2-Z machinery. Absent from the exported customer tree (folder skeleton excepted).",
+    "GENERATE_EMPTY": "Declared mutable campaign root required for genesis, emitted as contract-valid EMPTY / UNKNOWN state from the fixed generation constants in this policy, materialized at the rule's declared output_path when one is present (otherwise at the source path). The disposition also carries the one explicit, proven portability adaptation: the shipped RT01 runtime workflow is generated from a fixed policy constant equal to the source workflow minus its source-only pytest arguments, so the exported product's CI commands reference only shipped executable surfaces."
+  },
+  "match_semantics": "Each rule 'match' is either an exact repository-relative path or an EXCLUDE-only directory prefix ending in '/'. A path resolves to the rule with the longest matching string. No match => FAIL (unclassified). More than one rule tied at the winning length => FAIL (ambiguous). COPY is never a directory prefix (Classification Granularity Rule).",
+  "identity": {
+    "path_tokens": [
+      "madma",
+      "gork",
+      "mugen",
+      "saarpa",
+      "ioulaum",
+      "vampire",
+      "larloch",
+      "spellplague",
+      "bor-family"
+    ],
+    "content_surfaces": {
+      "README.md": [
+        "Rolling High Club",
+        "rhc-primary"
+      ]
+    },
+    "omitted_skeleton_prefixes": [
+      "characters/madma/",
+      "npc/profiles/bor-family/"
+    ]
+  },
+  "rules": [
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "CHANGELOG.md"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "ENGINE_CHANGELOG.md"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "canon/timeline.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "characters/madma/"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "knowledge/facts.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "npc/npc_state.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "quests/narrative_hooks.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "realities/registry/rhc-primary.json",
+      "output_path": "realities/registry/campaign-root.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "state/daily_recap.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "state/day_resolution.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "state/dm_meta.json"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "state/live_status.json"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "ENGINE_VERSION"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": ".github/workflows/post-ev2-z-clean-canvas.yml"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "canon/bor_vestige_bell_spellplague.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "characters/mugen.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "docs/EV2-12-FIRST-REAL-CANARY.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "docs/EV2-12.1-GENERALIZED-ITEM-ADMISSION.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "docs/HB-01-PROVENANCE.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "docs/POST-EV2-3-RUN-IMPACT-WIRING.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "docs/POST-EV2-Z-CLEAN-CAMPAIGN-EXPORT.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "npc/profiles/bor.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "schemas/README.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "scripts/export_clean_campaign.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "supabase/README.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_10/test_character_rest.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_2/test_hot_run_registry.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_9/test_character_vitals_resources.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/rt03/test_run_record_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/rt03/test_run_resolution.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_intake_candidate_material_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_intake_candidate_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_intake_decision_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_provenance_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_reality_inheritance.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_relationship_instance_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_relationship_kind_validation.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/test_workflow_dropgate.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "villain/gork.md"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "bootstrap/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_z/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "supabase/canaries/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "entities/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "inventory/weapons/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "npc/battle/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "npc/profiles/bor-family/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/ev212/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/ev2121/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_6/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/fixtures/realities/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/fixtures/relationship_instances/"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/fixtures/relationship_kinds/"
+    },
+    {
+      "disposition": "COPY",
+      "match": ".githooks/pre-commit"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": ".github/workflows/entity-v2-identity.yml"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": ".github/workflows/flight-control.yml"
+    },
+    {
+      "disposition": "COPY",
+      "match": ".github/workflows/hard-write-boundary.yml"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": ".github/workflows/rt01-runtime.yml"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": ".github/workflows/story-retrieval.yml"
+    },
+    {
+      "disposition": "COPY",
+      "match": ".gitignore"
+    },
+    {
+      "disposition": "COPY",
+      "match": "AGENTS.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "AGENT_HANDOFF.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "BUILDER.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "CLAUDE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "ORCHESTRATOR.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "PLAY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "PROJECT_PRIMER.md"
+    },
+    {
+      "disposition": "GENERATE_EMPTY",
+      "match": "README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "beyond_the_heroes/BEYOND_THE_HEROES_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "beyond_the_heroes/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "beyond_the_heroes/entries/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "beyond_the_heroes/ideas/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "brainstorm/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "canon/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "canon/days/DAY_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "characters/CHARACTER_STATE_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "characters/CHARACTER_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "characters/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "config/ECONOMY_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "config/ORGANIZATION_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "config/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "config/REPUTATION_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/BTH-01-PLAYER-DM-ACCESS.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/BUSINESS_SYSTEM_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CAMPAIGN_TIME.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CI-01-CANDIDATE-CONTRACT.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CI-02-1-CANDIDATE-MATERIAL.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CI-02-DECISION-LEDGER.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CI-03-COLLISION-DETECTION.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/CI-04-PROMOTION-BRIDGE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/DM_CONTROL_ROOM.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-07-SCENARIO-ENCOUNTER.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-08-RUN.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-09A-OFFSCREEN-RESOLUTION.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-10-INVENTORY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-11-ITEM-CUSTODY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-13-1-TIMED-STATUS-CONTINUITY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-13-420-TEMPORAL-CORE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-13-MUTABLE-ENTITY-STATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/EV2-14-LOCAL-KNOWLEDGE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-1-CLEAN-BOOTSTRAP.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-1-SAME-SAVE-COMPATIBILITY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-1-SAVE-DOMAIN-POLICY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-10-CHARACTER-REST.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-11-9-REPUTATION.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-11-BEGIN-DAY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-12-BUSINESS-ECONOMY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-14-DISPOSABLE-BRAINSTORM-LAB.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-2-HOT-RUN-REGISTRY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-4A-TEMPORAL-TIMESPACE-CONTINUITY.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-4B-REALITY-INHERITANCE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-5-CURRENT-SEARCH.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-6-STORY-RETRIEVAL.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-8-DICE-RESOLVER.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/POST-EV2-9-CHARACTER-VITALS-RESOURCES.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "docs/RHC_WORKSYSTEM.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "inventory/ITEM_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "inventory/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "knowledge/KNOWLEDGE_SYSTEM.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "knowledge/META_NON_META_PROTOCOL.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "locations/LOCATION_PROFILE_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "locations/LOCATION_STATE_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "locations/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "locations/profiles/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "locations/state/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "npc/NPC_BATTLE_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "npc/NPC_PROFILE_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "npc/NPC_STATE_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "npc/NPC_SYSTEM.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "planned/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "quests/HOOK_ENTRY_TEMPLATE.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "quests/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "realities/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "requirements.txt"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/character_mechanics.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/character_rests.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/encounter.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/entity.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/hook.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_candidate.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_candidate_material.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_collision.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_decision.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_promotion.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/intake_promotion_receipt.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/inventory.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/item_custody.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/knowledge.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/reality.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/relationship_instance.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/relationship_kind.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/run.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/run_resolution.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/scenario.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "schemas/state.schema.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/begin_day.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/brainstorm_lab.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/business_plan.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/business_resolver.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/character_rest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/context_access.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/dice_resolver.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/install_write_guard.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/offscreen_resolution.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/reputation_resolver.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/runtime_published_mirror.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/story_retrieval.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_canonical_root_json.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_entities.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_hooks.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_intake_candidate_material.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_intake_candidates.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_intake_collisions.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_intake_decisions.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_intake_promotions.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_realities.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_relationship_instances.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_relationship_kinds.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_run_resolutions.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_runs.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_scenarios_encounters.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "scripts/validate_write_boundary.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "state/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/baselines/20260924_post_ev2_1_clean_bootstrap.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000001_rt01a_published_runtime_floor.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000002_rt01a_bootstrap_unknown_runtime.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000003_rt01b_save_gateway_mutation_boundary.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000004_rt01c_runtime_published_git_handshake.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000005_rt01c_bind_runtime_mirror_base.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260908000006_rt01d_dm_read_engineering_release.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260911000001_rt02_campaign_clock.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260911000002_rt03_canonical_run_runtime_read.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260912000001_rt04_safe_run_reconciliation.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260914000001_hwb02_save_runtime_authority.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260915000001_ev210_inventory_ownership.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260917000001_ev211_item_custody.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260919000001_ev2121_item_identity_admission.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260919000002_ev213_mutable_entity_state.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260920000001_ev213420_temporal_core.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260920000002_ev2131_timed_status_continuity.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260923000001_post_ev2_1_save_domain_policy_registry.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260923000002_post_ev2_1_same_save_compatibility_dispatcher.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260924000001_post_ev2_3_knower_safe_run_impact.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260925000001_post_ev2_4a_temporal_timespace_continuity.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260926000001_post_ev2_5_current_search.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260928000001_post_ev2_9_character_vitals_resources.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260929000001_post_ev2_10_character_rest.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "supabase/migrations/20260929000002_post_ev2_11_begin_day.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "systems/combat_academy/ENCOUNTER_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "systems/combat_academy/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev210/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev210/test_inventory_ownership.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev211/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev211/test_item_custody_runtime.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev213/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev213/test_handoff_and_controller_safety.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev213/test_mutable_entity_state.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev2131/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev2131/ev2131_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev2131/test_controller_handoff.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev2131/test_temporal_continuity.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev2131/test_timed_status_instances.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev213420/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/ev213420/test_temporal_core.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/encounters/valid/01-social.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/encounters/valid/02-exploration.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/encounters/valid/03-combat.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/encounters/valid/04-mixed.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_duplicate/character-test-duplicate-a.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_duplicate/character-test-duplicate-b.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/ability_status_effect_prefix_mismatch.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/additional_property.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/bad_reference_format.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/duplicate_reference_items.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/missing_required.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/type_prefix_mismatch.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/unknown_entity_type.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/invalid_schema/wrong_id_pattern.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/ability-test-spark.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/character-test-hero.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/character-test-mastermind.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/character-test-shopkeep.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/creature-test-wolf.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/faction-test-guild.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/item-test-blade.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/location-test-tavern.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/party-test-band.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/entities/valid/status_effect-test-chill.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_duplicate_id/01-first.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_duplicate_id/02-second.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_schema/active_with_retirement_reason.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_schema/bad_entity_ref.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_schema/bad_status.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_schema/extra_scenario_field.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/invalid_schema/retired_without_reason.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/valid/01-dormant.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/valid/02-active.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/valid/03-resolved.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/hooks/valid/04-retired.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_duplicate/character-test-duplicate-a.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_duplicate/character-test-duplicate-b.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_schema/bad_entity_id.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_schema/entry_missing_item.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_schema/entry_with_status_field.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_schema/known_without_entries.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/invalid_schema/unknown_with_entries.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/valid/character-test-bor-inventory.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/valid/character-test-empty-inventory.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/valid/creature-test-unknown-inventory.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/inventory/valid/location-test-na-inventory.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/item_custody/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/item_custody/valid/item-test-blade-custody.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/invalid_duplicate/character-test-duplicate-a.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/invalid_duplicate/character-test-duplicate-b.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/invalid_schema/bad_entity_id.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/invalid_schema/entry_value_is_object.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/invalid_schema/known_without_entries.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/valid/character-test-bor-knowledge.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/valid/creature-test-unknown-knowledge.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/knowledge/valid/location-test-na-knowledge.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/run_resolutions/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/run_resolutions/valid/01-resolution.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/runs/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/runs/valid/01-run.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/runs/valid/02-run.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/runs/valid/03-run.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/scenarios/valid/01-scenario.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/scenarios/valid/02-scenario.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_duplicate/character-test-duplicate-a.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_duplicate/character-test-duplicate-b.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/bad_entity_id.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/entry_known_without_value.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/entry_unknown_with_value.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/entry_value_is_object.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/known_without_entries.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/invalid_schema/unknown_with_entries.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/valid/character-test-bor-state.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/valid/creature-test-na-state.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/fixtures/state/valid/location-test-unknown-state.json"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/hwb02/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/hwb02/test_migration_install.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/hwb02/test_save_runtime_authority.py"
+    },
+    {
+      "disposition": "EXCLUDE",
+      "match": "tests/post_ev2_1/test_clean_bootstrap_equivalence.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_1/test_same_save_compatibility_dispatcher.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_1/test_save_domain_policy_registry.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_11/test_begin_day.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_11/test_consumer_state_patch.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_11_9/test_reputation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_12/test_business_begin_day_consumer.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_12/test_business_day_resolver.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_12/test_business_plan.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_3/test_run_impact_wiring.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_4a/test_temporal_timespace_continuity.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_5/test_current_search.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01a/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01a/supabase_baseline_roles.sql"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01a/test_published_runtime_floor.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01a/test_runtime_locator_coherence.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01activation/test_pg17_verifier_compatibility.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/gateway_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_concurrency_recovery.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_expired_context.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_lease_clock_ordering.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_mutation_boundary_guard.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_publication_identity.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01b/test_save_gateway_lifecycle.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_bootstrap_base_binding.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_commit_hook_isolation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_confirmation_requires_bound_base.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_jsonb_precision.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_migration_upgrade_boundary.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_remote_reuse_semantics.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_runtime_published_handshake.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01c/test_verifier_role_hardening.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01d/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01d/rt01d_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01d/test_dm_runtime_read.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01d/test_engineering_git_adoption.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt01d/test_engineering_release.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/rt02_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_engineering_release.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_gateway.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_publication.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_read_mirror.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_semantics.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_clock_shape.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt02/test_migration_bootstrap.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/rt03_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/test_run_floor_safety.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/test_run_generation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/test_run_mirror_carriage.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt03/test_run_service_boundary.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/conftest.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/rt04_util.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/test_reconciliation_atomicity_idempotency.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/test_reconciliation_happy_path.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/test_reconciliation_legality.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/rt04/test_reconciliation_receipt_baseline.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_canonical_root_json.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_context_access.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_dice_resolver.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_entity_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_hook_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_intake_collision_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_intake_promotion_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_item_custody_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_offscreen_anchor_context.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_offscreen_run_resolution.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_run_anchor_git_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_run_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_runtime_published_mirror.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_scenario_encounter_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_state_knowledge_inventory_validation.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/test_write_boundary.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "tests/post_ev2_14/test_brainstorm_lab.py"
+    },
+    {
+      "disposition": "COPY",
+      "match": "villain/README.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "villain/VILLAIN_LAIR_TEMPLATE.md"
+    },
+    {
+      "disposition": "COPY",
+      "match": "villain/VILLAIN_TEMPLATE.md"
+    }
+  ],
+  "generate": {
+    "state/daily_recap.json": {
+      "schema_version": 1,
+      "system": "Rolling High Club Daily Recap Live State",
+      "purpose": "Player-known in-day recap and next-scene handoff for the current active campaign day. Permanent finalized history belongs in canon/days/.",
+      "status": "uninitialized",
+      "current_day": null,
+      "current_summary": {
+        "rng_highlights": [],
+        "mechanical_handoff": [],
+        "next_scene_handoff": [],
+        "general_development": []
+      },
+      "previous_day_record": null,
+      "carryover_active_hooks_at_start": []
+    },
+    "state/day_resolution.json": {
+      "schema_version": 1,
+      "system": "Rolling High Club Day Resolution",
+      "purpose": "Current-day RNG and mechanical resolutions that must survive a handoff. This file is optional/inert until a tracked mechanic is actually used.",
+      "status": "uninitialized",
+      "current_day": null,
+      "rng_rolls": [],
+      "mechanical_resolutions": [],
+      "persistent_effects_applied": [],
+      "notes": []
+    },
+    "state/dm_meta.json": {
+      "schema_version": 1,
+      "system": "Rolling High Club DM Meta",
+      "purpose": "Committed hidden runtime truth and durable DM-only handoff that already matters to continuity but is not player-known. Uncommitted future ideas belong in planned/ or brainstorm/ instead.",
+      "visibility": "meta",
+      "status": "uninitialized",
+      "current_day": null,
+      "committed_hidden_truths": [],
+      "durable_dm_plans": [],
+      "ghost_seeds": [],
+      "unresolved_reveal_conditions": [],
+      "run_claims": {},
+      "last_update_source": null
+    },
+    "state/live_status.json": {
+      "schema_version": 1,
+      "system": "Rolling High Club Live Status",
+      "purpose": "Generic mutable campaign resources, assets, persistent effects and obligations when repository tracking is useful.",
+      "status": "uninitialized",
+      "current_day": null,
+      "party_state": {},
+      "campaign_resources": {},
+      "organizations": {},
+      "businesses": {},
+      "assets": {},
+      "persistent_effects": [],
+      "financial_obligations": {},
+      "last_update_source": null
+    },
+    "knowledge/facts.json": {
+      "schema_version": 2,
+      "system": "Rolling High Club Canonical Facts",
+      "purpose": "Stable reusable world facts with explicit META/NON_META visibility. Character-specific knowledge remains local to NPC/character state.",
+      "default_visibility": "meta",
+      "next_fact_id": "F001",
+      "facts": [],
+      "fact_schema": {
+        "fact_id": "Fxxx",
+        "title": "string",
+        "statement": "string",
+        "status": "canon",
+        "domain": "string",
+        "visibility": "meta | non_meta",
+        "related_entities": [],
+        "source_status": "rhc_canon | explicit_dm_canon | official_forgotten_realms | official_dnd_rules | mixed_rhc_and_official",
+        "source_note": null,
+        "revealed_in_session": null,
+        "revealed_to": [],
+        "reveal_note": null
+      }
+    },
+    "npc/npc_state.json": {
+      "template_version": 7,
+      "system_reference": "npc/NPC_SYSTEM.md",
+      "npcs": {}
+    },
+    "quests/narrative_hooks.json": {
+      "schema_version": 1,
+      "system": "Rolling High Club Narrative Hook Ledger",
+      "purpose": "Single current owner of active, dormant and current-day closed multi-day narrative Hooks.",
+      "day_status": "uninitialized",
+      "current_day": null,
+      "next_hook_id": "H01",
+      "active_hooks": [],
+      "dormant_hooks": [],
+      "closed_hooks_today": []
+    },
+    "realities/registry/campaign-root.json": {
+      "reality_id": "reality:campaign-root",
+      "display_name": "Campaign Root Reality"
+    },
+    "canon/timeline.md": "# Timeline\n\nNo milestones have been recorded yet.\n",
+    "README.md": "# Campaign\n\nA campaign-neutral canvas exported from a reusable tabletop engine.\n\nThis canvas is a clean starting point: it carries no campaign history, entities, characters, canon or mutable state from any source campaign. Unestablished values remain unknown until they are established in play.\n\n## Start Here\n\n1. Read [`PROJECT_PRIMER.md`](PROJECT_PRIMER.md) for the workspace governance and continuity rules.\n2. Read [`docs/DM_CONTROL_ROOM.md`](docs/DM_CONTROL_ROOM.md) to classify a request and choose the smallest source.\n3. Read [`docs/RHC_WORKSYSTEM.md`](docs/RHC_WORKSYSTEM.md) before a save, handoff or day rollover.\n4. Read [`AGENT_HANDOFF.md`](AGENT_HANDOFF.md) to route agent work.\n\n## Core Principle\n\nThe repository stores the knowledge. The Dungeon Master creates the story.\n",
+    "CHANGELOG.md": "# Changelog\n\nNo changes have been recorded yet.\n",
+    "ENGINE_CHANGELOG.md": "# Engine Changelog\n\nNo engine changes have been recorded yet.\n",
+    ".github/workflows/rt01-runtime.yml": "name: RT01 runtime foundation\n\non:\n  pull_request:\n    branches: [main]\n    paths:\n      - \"supabase/**\"\n      - \"scripts/runtime_published_mirror.py\"\n      - \"tests/rt01a/**\"\n      - \"tests/rt01b/**\"\n      - \"tests/rt01c/**\"\n      - \"tests/rt01d/**\"\n      - \"tests/rt01activation/**\"\n      - \"tests/rt02/**\"\n      - \"tests/rt03/**\"\n      - \"tests/rt04/**\"\n      - \"tests/ev210/**\"\n      - \"tests/ev211/**\"\n      - \"tests/ev213420/**\"\n      - \"tests/ev2131/**\"\n      - \"tests/ev2121/**\"\n      - \"tests/ev213/**\"\n      - \"tests/hwb02/**\"\n      - \"tests/post_ev2_1/**\"\n      - \"tests/post_ev2_2/**\"\n      - \"tests/post_ev2_3/**\"\n      - \"tests/post_ev2_4a/**\"\n      - \"tests/post_ev2_5/**\"\n      - \"tests/post_ev2_9/**\"\n      - \"tests/post_ev2_10/**\"\n      - \"tests/post_ev2_11/**\"\n      - \"tests/post_ev2_11_9/**\"\n      - \"tests/post_ev2_12/**\"\n      - \"tests/test_runtime_published_mirror.py\"\n      - \"requirements.txt\"\n      - \".github/workflows/rt01-runtime.yml\"\n  push:\n    branches: [main]\n    paths:\n      - \"supabase/**\"\n      - \"scripts/runtime_published_mirror.py\"\n      - \"tests/rt01a/**\"\n      - \"tests/rt01b/**\"\n      - \"tests/rt01c/**\"\n      - \"tests/rt01d/**\"\n      - \"tests/rt01activation/**\"\n      - \"tests/rt02/**\"\n      - \"tests/rt03/**\"\n      - \"tests/rt04/**\"\n      - \"tests/ev210/**\"\n      - \"tests/ev211/**\"\n      - \"tests/ev213420/**\"\n      - \"tests/ev2131/**\"\n      - \"tests/ev2121/**\"\n      - \"tests/ev213/**\"\n      - \"tests/hwb02/**\"\n      - \"tests/post_ev2_1/**\"\n      - \"tests/post_ev2_2/**\"\n      - \"tests/post_ev2_3/**\"\n      - \"tests/post_ev2_4a/**\"\n      - \"tests/post_ev2_5/**\"\n      - \"tests/post_ev2_9/**\"\n      - \"tests/post_ev2_10/**\"\n      - \"tests/post_ev2_11/**\"\n      - \"tests/post_ev2_11_9/**\"\n      - \"tests/post_ev2_12/**\"\n      - \"tests/test_runtime_published_mirror.py\"\n      - \"requirements.txt\"\n      - \".github/workflows/rt01-runtime.yml\"\n\n# One DSN set shared by every isolated proof shard. Each shard job runs on its\n# own runner with its own PostgreSQL 15 (55432) and PostgreSQL 17 (55433)\n# service containers, so no two shards ever mutate the same disposable database.\n# The families still execute against exactly the same PostgreSQL versions and\n# DSN environment they used when RT01 was one serial pytest invocation.\nenv:\n  RHC_RT01A_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT01B_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT01C_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT01D_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT02_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT03_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_RT04_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_EV210_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_EV211_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_EV213420_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_EV213420_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_EV2131_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_EV2131_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV21_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV21_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV22_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV22_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV23_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV23_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV24A_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV24A_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV25_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV25_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV29_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV29_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV210_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV210_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_POST_EV211_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc\n  RHC_POST_EV211_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n  RHC_RT01_ACTIVATION_PG_DSN: postgresql://postgres:rhc@localhost:55433/rhc\n\njobs:\n  # Shard 1 of 4 — RT01 floor, campaign clock and the runtime mirror.\n  prove-runtime-floor:\n    name: RT01 runtime foundation (runtime floor)\n    runs-on: ubuntu-latest\n    services:\n      postgres:\n        image: postgres:15\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55432:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n      postgres17:\n        image: postgres:17\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55433:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt\n      - name: Prove RT01/RT02 floor + runtime mirror on PostgreSQL 15/17 + real Git objects\n        run: >-\n          pytest\n          tests/rt01a\n          tests/rt01b\n          tests/rt01c\n          tests/rt01d\n          tests/rt01activation\n          tests/rt02\n          tests/test_runtime_published_mirror.py\n          -v\n      - name: Prove HWB-02 SAVE runtime authority on PostgreSQL 15/17 (separate process)\n        run: pytest tests/hwb02 -v\n\n  # Shard 2 of 4 — canonical Run read/reconciliation and the EV2-10 spine link.\n  prove-run-spine:\n    name: RT01 runtime foundation (run spine)\n    runs-on: ubuntu-latest\n    services:\n      postgres:\n        image: postgres:15\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55432:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n      postgres17:\n        image: postgres:17\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55433:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt\n      - name: Prove RT03/RT04/EV2-10 on PostgreSQL 15/17 + real Git objects\n        run: >-\n          pytest\n          tests/rt03\n          tests/rt04\n          tests/ev210\n          -v\n\n  # Shard 3 of 4 — entity custody/state/timeline and the save-policy frontier.\n  prove-entity-timeline:\n    name: RT01 runtime foundation (entity + timeline)\n    runs-on: ubuntu-latest\n    services:\n      postgres:\n        image: postgres:15\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55432:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n      postgres17:\n        image: postgres:17\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55433:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt\n      - name: Prove EV2-11/EV2-13.1/EV2-13.420 + POST-EV2-1/2 on PostgreSQL 15/17 + real Git objects\n        run: >-\n          pytest\n          tests/ev211\n          tests/ev2131\n          tests/ev213420\n          tests/post_ev2_1\n          -v\n      - name: Prove EV2-12.1 / EV2-13 entity admission on PostgreSQL 15/17 (separate process)\n        run: pytest tests/ev213 -v\n\n  # Shard 4 of 4 — POST-EV2 runtime frontier (impact/temporal/search/vitals/rest/reputation).\n  prove-post-ev2-frontier:\n    name: RT01 runtime foundation (post-EV2 frontier)\n    runs-on: ubuntu-latest\n    services:\n      postgres:\n        image: postgres:15\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55432:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n      postgres17:\n        image: postgres:17\n        env:\n          POSTGRES_PASSWORD: rhc\n          POSTGRES_DB: rhc\n        ports:\n          - 55433:5432\n        options: >-\n          --health-cmd \"pg_isready -U postgres -d rhc\"\n          --health-interval 10s\n          --health-timeout 5s\n          --health-retries 5\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt\n      - name: Prove POST-EV2-3/4A/5/9/10/11/11.9 on PostgreSQL 15/17 + real Git objects\n        run: >-\n          pytest\n          tests/post_ev2_3\n          tests/post_ev2_4a\n          tests/post_ev2_5\n          tests/post_ev2_11\n          tests/post_ev2_11_9\n          tests/post_ev2_12\n          -v\n\n  # Stable aggregate RT01 signal. Branch protection / merge gating consumes this\n  # one check name; it succeeds only when every required proof shard succeeds and\n  # fails whenever any shard fails, is cancelled or is otherwise not green.\n  prove-runtime-foundation:\n    name: prove-runtime-foundation\n    needs:\n      - prove-runtime-floor\n      - prove-run-spine\n      - prove-entity-timeline\n      - prove-post-ev2-frontier\n    if: always()\n    runs-on: ubuntu-latest\n    steps:\n      - name: Require every RT01 proof shard to succeed\n        shell: bash\n        env:\n          RUNTIME_FLOOR: ${{ needs.prove-runtime-floor.result }}\n          RUN_SPINE: ${{ needs.prove-run-spine.result }}\n          ENTITY_TIMELINE: ${{ needs.prove-entity-timeline.result }}\n          POST_EV2_FRONTIER: ${{ needs.prove-post-ev2-frontier.result }}\n        run: |\n          set -euo pipefail\n          echo \"RT01 shard results:\"\n          echo \"  runtime floor   : $RUNTIME_FLOOR\"\n          echo \"  run spine       : $RUN_SPINE\"\n          echo \"  entity+timeline : $ENTITY_TIMELINE\"\n          echo \"  post-EV2 front  : $POST_EV2_FRONTIER\"\n          for result in \\\n            \"$RUNTIME_FLOOR\" \\\n            \"$RUN_SPINE\" \\\n            \"$ENTITY_TIMELINE\" \\\n            \"$POST_EV2_FRONTIER\"; do\n            if [ \"$result\" != \"success\" ]; then\n              echo \"One or more required RT01 proof shards did not succeed.\" >&2\n              exit 1\n            fi\n          done\n"
+  }
+}

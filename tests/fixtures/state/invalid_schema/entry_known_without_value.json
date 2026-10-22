@@ -1,0 +1,7 @@
+{
+  "entity_id": "character:test-entry-known-without-value",
+  "status": "known",
+  "entries": [
+    { "attribute": "current_location", "status": "known" }
+  ]
+}

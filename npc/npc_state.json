@@ -1,0 +1,40 @@
+{
+  "template_version": 7,
+  "system_reference": "npc/NPC_SYSTEM.md",
+  "npcs": {
+    "bor": {
+      "display_name": "Bor",
+      "profile_source": "npc/profiles/bor.md",
+      "live_state": {
+        "location": "Αετοφωλιά (Eagle's Nest)",
+        "status": "Unknown",
+        "current_goal": null,
+        "availability": null,
+        "active_assignment": null,
+        "pending_actions": [],
+        "current_combat_state": "battle_ready",
+        "current_combat_loadout": {
+          "armor_worn": null,
+          "shield_equipped": null,
+          "weapons_or_focus_carried": [
+            "+3 Maul"
+          ],
+          "deployed_combat_equipment": [],
+          "notes": "Bor is currently at Αετοφωλιά (Eagle's Nest). His RHC NPC combat build is CR 10. Armor is not tracked as a required inventory item; AC is resolved directly by the battle reference. +3 Maul is explicitly established by the DM as his carried combat weapon."
+        }
+      },
+      "relationships": {},
+      "knowledge_boundaries": {
+        "npc_confirmed_knowledge": [],
+        "npc_unconfirmed_beliefs": [],
+        "observer_knowledge": {},
+        "protected_secrets_known": {}
+      },
+      "continuity": {
+        "last_interaction_day": null,
+        "last_updated_day": null,
+        "last_update_source": "explicit_user_canon_update"
+      }
+    }
+  }
+}

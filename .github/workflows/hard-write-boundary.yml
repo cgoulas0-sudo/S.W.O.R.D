@@ -1,0 +1,52 @@
+name: Hard Write Boundary
+
+# Trusted server BUILD write-authority fence (HWB-01).
+#
+# pull_request_target deliberately runs THIS workflow version from the trusted
+# BASE branch, so a PR cannot weaken or neutralize the fence and grade itself.
+# The job checks out the exact PR base SHA and runs the base-defined validator;
+# the PR head is fetched and consumed only as Git objects (never executed,
+# never granted authority credentials).
+
+on:
+  pull_request_target:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  hard_write_boundary:
+    name: Hard Write Boundary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout trusted base revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch exact PR head as data
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin \
+            "refs/pull/${{ github.event.pull_request.number }}/head"
+
+      - name: Grade exact PR head/base against live JOHNNY write authority
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          python scripts/validate_write_boundary.py check-pr \
+            "$PR_BASE_SHA" "$PR_HEAD_SHA" "$PR_HEAD_BRANCH" \
+            --repository "$GITHUB_REPOSITORY" \
+            --head-repository "$PR_HEAD_REPO"

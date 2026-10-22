@@ -1,0 +1,7 @@
+{
+  "kind": "guards",
+  "inverse_of": "guarded_by",
+  "allowed_source_types": ["character"],
+  "allowed_target_types": ["location"],
+  "notes": "Fixture (invalid_one_sided_endpoints): declares endpoint restrictions while its mutually-consistent inverse (guarded_by) leaves both endpoint fields undeclared."
+}

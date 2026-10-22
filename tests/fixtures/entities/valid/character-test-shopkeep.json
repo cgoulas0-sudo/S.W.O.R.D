@@ -1,0 +1,7 @@
+{
+  "entity_id": "character:test-shopkeep",
+  "entity_type": "character",
+  "subtype": "npc",
+  "display_name": "Test Shopkeep (fixture)",
+  "references": ["character:test-hero"]
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "guards",
+  "allowed_target_types": ["monster"],
+  "notes": "Fixture (invalid): allowed_target_types must be one of the closed entity_type set."
+}

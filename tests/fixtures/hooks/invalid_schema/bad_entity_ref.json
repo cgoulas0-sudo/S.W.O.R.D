@@ -1,0 +1,9 @@
+{
+  "hook_id": "H13",
+  "title": "Bad entity ref",
+  "objective": "Reject mutable role prefixes as entity identity.",
+  "status": "active",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": ["npc:test-npc"]
+}

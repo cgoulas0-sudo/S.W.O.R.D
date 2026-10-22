@@ -1,0 +1,12 @@
+{
+  "entity_id": "character:test-entry-value-is-object-kn",
+  "status": "known",
+  "entries": [
+    {
+      "topic": "next_move",
+      "epistemic_status": "confirmed",
+      "value": { "action": "attack", "target": "goblin" },
+      "visibility": "non_meta"
+    }
+  ]
+}

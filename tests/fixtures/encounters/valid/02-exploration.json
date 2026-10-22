@@ -1,0 +1,9 @@
+{
+  "encounter_id": "E02",
+  "scenario_id": "S01",
+  "title": "Search the wreckage",
+  "scene_type": "exploration",
+  "setup": "The caravan wreck is unstable and only partly searched.",
+  "immediate_objective": "Investigate the site without prescribing a solution.",
+  "related_entity_ids": ["location:test-ruin"]
+}

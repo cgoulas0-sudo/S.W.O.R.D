@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "system": "Rolling High Club Daily Recap Live State",
+  "purpose": "Player-known in-day recap and next-scene handoff for the current active campaign day. Permanent finalized history belongs in canon/days/.",
+  "status": "uninitialized",
+  "current_day": null,
+  "current_summary": {
+    "rng_highlights": [],
+    "mechanical_handoff": [],
+    "next_scene_handoff": [],
+    "general_development": []
+  },
+  "previous_day_record": null,
+  "carryover_active_hooks_at_start": []
+}

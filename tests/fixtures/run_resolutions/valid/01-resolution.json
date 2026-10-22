@@ -1,0 +1,26 @@
+{
+  "resolution_id": "RP01",
+  "run_id": "R03",
+  "scenario_id": "S02",
+  "primary_hook_id": "H02",
+  "campaign_anchor": {
+    "base_commit": "18bebc813f1af0a8478b97654bd86885e2a5bc25",
+    "campaign_time": "Day 13, dawn"
+  },
+  "objective_context": {
+    "scenario_objective": "Navigate the meeting without assuming a fixed outcome.",
+    "hook_objective": "Track a quest currently in motion."
+  },
+  "primary_roll": 18,
+  "outcome_band": "above_average",
+  "proposed_consequences": [
+    {
+      "consequence_id": "PC01",
+      "scope": "run_objective",
+      "kind": "objective_result",
+      "summary": "Apply the above average result to the Run objective defined by Scenario S02 and Primary Hook H02.",
+      "related_entity_ids": [],
+      "location_ids": []
+    }
+  ]
+}

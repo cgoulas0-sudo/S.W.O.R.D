@@ -1,0 +1,5 @@
+{
+  "entity_id": "character:test-mismatch",
+  "entity_type": "creature",
+  "display_name": "Type/ID Prefix Mismatch (fixture)"
+}

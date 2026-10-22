@@ -1,0 +1,7 @@
+{
+  "kind": "parent_of",
+  "inverse_of": "child_of",
+  "allowed_source_types": ["character", "creature"],
+  "allowed_target_types": ["character", "creature"],
+  "notes": "Fixture kind (EV2-05 Patch 1): asymmetric pair proving inverse_of consistency and allowed_source_types/allowed_target_types."
+}

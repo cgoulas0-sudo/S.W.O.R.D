@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/run.schema.json",
+  "title": "RHC Entity V2 Run",
+  "description": "Minimal occurrence/execution-branch record tied to one Scenario. Records local occurrence and mutable actor ownership without performing off-screen resolution or canon merge-back.",
+  "type": "object",
+  "required": [
+    "run_id",
+    "execution_mode",
+    "control_state",
+    "scenario_id",
+    "occurred_encounter_ids",
+    "participant_entity_ids",
+    "mutable_owner_entity_ids",
+    "location_ids",
+    "campaign_anchor"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {"type": "string", "pattern": "^R[0-9]{2,}(?![\\s\\S])"},
+    "execution_mode": {"type": "string", "enum": ["played", "off_screen"]},
+    "control_state": {"type": "string", "enum": ["active", "parked", "not_applicable"]},
+    "scenario_id": {"type": "string", "pattern": "^S[0-9]{2,}(?![\\s\\S])"},
+    "occurred_encounter_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^E[0-9]{2,}(?![\\s\\S])"}
+    },
+    "party_id": {"type": "string", "pattern": "^party:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"},
+    "participant_entity_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(character|creature):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"}
+    },
+    "mutable_owner_entity_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(character|creature):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"}
+    },
+    "location_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^location:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"}
+    },
+    "campaign_anchor": {
+      "type": "object",
+      "required": ["base_commit", "campaign_time"],
+      "additionalProperties": false,
+      "properties": {
+        "base_commit": {"type": "string", "pattern": "^[0-9a-f]{40}(?![\\s\\S])"},
+        "campaign_time": {"type": "string", "minLength": 1, "pattern": "\\S"}
+      }
+    },
+    "outcome_summary": {"type": "string", "minLength": 1, "pattern": "\\S"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"execution_mode": {"const": "played"}}, "required": ["execution_mode"]},
+      "then": {"properties": {"control_state": {"enum": ["active", "parked"]}}}
+    },
+    {
+      "if": {"properties": {"execution_mode": {"const": "off_screen"}}, "required": ["execution_mode"]},
+      "then": {"properties": {"control_state": {"const": "not_applicable"}}}
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "entity_id": "character:test-unknown-with-entries-inv",
+  "status": "unknown",
+  "entries": [
+    {
+      "name": "+3 Maul",
+      "description": "A fictional magic maul used only as fixture data.",
+      "quantity": 1
+    }
+  ]
+}

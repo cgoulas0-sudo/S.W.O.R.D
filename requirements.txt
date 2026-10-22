@@ -1,0 +1,5 @@
+jsonschema>=4.20,<5
+pytest>=7,<9
+PyYAML>=6,<7
+# RT01-A real-PostgreSQL proof (tests/rt01a). Test-only; skipped when no Postgres.
+psycopg2-binary>=2.9,<3

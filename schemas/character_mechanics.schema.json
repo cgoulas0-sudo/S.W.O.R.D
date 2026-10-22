@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/character_mechanics.schema.json",
+  "title": "RHC Character Mechanics (POST-EV2-9)",
+  "description": "Bounded operational character-mechanics record for one tracked character:<slug>. It carries the normalized machine-readable mechanical capacities/metadata a runtime consumer needs (HP, Hit Dice pools, spell-slot pools and limited character-owned resources) together with the current expendable values, in ONE engine-owned runtime record. It deliberately does not mirror the human Markdown character sheet, does not infer a build from prose, and owns no controller authority. Unknown and not_applicable are explicit per-section truths, so an empty pool/counter list under a known section means 'known to be none' and is never interchangeable with 'unknown'. Schema enforces structural shape, whole non-negative integers, bounded vocabularies, stable local IDs and uniqueItems; the engine-owned mutation route additionally enforces current <= maximum and one record per character.",
+  "type": "object",
+  "required": ["character_id", "hp", "hit_dice", "spell_slots", "resources"],
+  "additionalProperties": false,
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "pattern": "^character:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "hp": {
+      "description": "Hit points. When known, `current` and `maximum` are required whole non-negative integers with current <= maximum (the cross-field inequality is enforced by the engine-owned route); optional `temporary` is current state and is deliberately not capacity-bounded. When unknown or not_applicable, all value fields are forbidden.",
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "$ref": "#/$defs/sectionStatus" },
+        "current": { "$ref": "#/$defs/nonNegativeInteger" },
+        "maximum": { "$ref": "#/$defs/nonNegativeInteger" },
+        "temporary": { "$ref": "#/$defs/nonNegativeInteger" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "known" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["current", "maximum"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "current": false,
+              "maximum": false,
+              "temporary": false
+            }
+          }
+        }
+      ]
+    },
+    "hit_dice": {
+      "description": "One or more distinct Hit Die pools so multiclass / multiple die sizes are representable. Known pools may be empty (known to have none). `pool_id` is a stable unique lower-slug within the character; `die_faces` is the bounded Hit Die vocabulary.",
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "$ref": "#/$defs/sectionStatus" },
+        "pools": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hitDiePool" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "known" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["pools"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+            "required": ["status"]
+          },
+          "then": { "properties": { "pools": false } }
+        }
+      ]
+    },
+    "spell_slots": {
+      "description": "Distinct spell-slot pools. Multiple pools at the same spell level must remain representable, so uniqueness is by `pool_id`, never by `slot_level`. `recharge_on` is the bounded Rest-relevant metadata; an empty list is legal for a pool whose recharge is not Rest-based.",
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "$ref": "#/$defs/sectionStatus" },
+        "pools": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/spellSlotPool" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "known" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["pools"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+            "required": ["status"]
+          },
+          "then": { "properties": { "pools": false } }
+        }
+      ]
+    },
+    "resources": {
+      "description": "Limited character-owned resources/counters. `resource_id` is a stable unique lower-slug within the character; `label` is a human-facing non-blank string. `recharge_on` is the bounded Rest-relevant metadata; an empty list is legal for a non-Rest-based tracked counter.",
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "$ref": "#/$defs/sectionStatus" },
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resourceItem" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "known" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["items"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+            "required": ["status"]
+          },
+          "then": { "properties": { "items": false } }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "sectionStatus": {
+      "enum": ["known", "unknown", "not_applicable"]
+    },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "localId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "humanLabel": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "rechargeOn": {
+      "description": "Bounded Rest-relevant recharge metadata: a set (unique) drawn only from `short_rest` / `long_rest`. Empty is legal for a resource whose recharge is not Rest-based; POST-EV2-10 acts only on rules it owns.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["short_rest", "long_rest"] }
+    },
+    "hitDiePool": {
+      "type": "object",
+      "required": ["pool_id", "die_faces", "current", "maximum"],
+      "additionalProperties": false,
+      "properties": {
+        "pool_id": { "$ref": "#/$defs/localId" },
+        "die_faces": { "enum": [4, 6, 8, 10, 12] },
+        "current": { "$ref": "#/$defs/nonNegativeInteger" },
+        "maximum": { "$ref": "#/$defs/nonNegativeInteger" }
+      }
+    },
+    "spellSlotPool": {
+      "type": "object",
+      "required": ["pool_id", "slot_level", "current", "maximum", "recharge_on"],
+      "additionalProperties": false,
+      "properties": {
+        "pool_id": { "$ref": "#/$defs/localId" },
+        "slot_level": { "type": "integer", "minimum": 1, "maximum": 9 },
+        "current": { "$ref": "#/$defs/nonNegativeInteger" },
+        "maximum": { "$ref": "#/$defs/nonNegativeInteger" },
+        "recharge_on": { "$ref": "#/$defs/rechargeOn" }
+      }
+    },
+    "resourceItem": {
+      "type": "object",
+      "required": ["resource_id", "label", "current", "maximum", "recharge_on"],
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": { "$ref": "#/$defs/localId" },
+        "label": { "$ref": "#/$defs/humanLabel" },
+        "current": { "$ref": "#/$defs/nonNegativeInteger" },
+        "maximum": { "$ref": "#/$defs/nonNegativeInteger" },
+        "recharge_on": { "$ref": "#/$defs/rechargeOn" }
+      }
+    }
+  }
+}

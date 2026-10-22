@@ -1,0 +1,107 @@
+{
+  "template_version": 9,
+  "purpose": "Template for mutable NPC state entries. Record only established current facts; use npc/NPC_SYSTEM.md, knowledge/KNOWLEDGE_SYSTEM.md and knowledge/META_NON_META_PROTOCOL.md for continuity, knowledge and visibility rules.",
+  "default_visibility": "meta",
+  "npc_entry": {
+    "display_name": "<NPC display name>",
+    "profile_source": "npc/profiles/<npc_slug>.md or other permanent RHC character source",
+    "live_state": {
+      "location": null,
+      "status": "Unknown",
+      "current_goal": null,
+      "availability": null,
+      "active_assignment": null,
+      "pending_actions": [],
+      "current_combat_state": "unknown",
+      "current_combat_loadout": {
+        "armor_worn": null,
+        "shield_equipped": null,
+        "weapons_or_focus_carried": [],
+        "deployed_combat_equipment": [],
+        "notes": null
+      }
+    },
+    "relationships": {
+      "<entity_slug>": {
+        "current_state": null,
+        "trend": "unknown",
+        "last_change": null,
+        "visibility": "meta"
+      }
+    },
+    "knowledge_boundaries": {
+      "npc_confirmed_knowledge": [
+        {
+          "fact_id": "Fxxx",
+          "knowledge_level": "confirmed",
+          "note": null,
+          "source": null
+        }
+      ],
+      "npc_unconfirmed_beliefs": [],
+      "observer_knowledge": {
+        "<observer_slug>": {
+          "confirmed_knowledge_about_npc": [],
+          "unconfirmed_beliefs_about_npc": []
+        }
+      },
+      "protected_secrets_known": {}
+    },
+    "continuity": {
+      "last_interaction_day": null,
+      "last_updated_day": null,
+      "last_update_source": null
+    }
+  },
+  "fact_reference_rule": "A fact-reference inherits META/NON-META visibility from knowledge/facts.json. The fact that an NPC knows it does not change its visibility.",
+  "local_knowledge_entry_schema": {
+    "statement": "string",
+    "knowledge_level": "confirmed | belief",
+    "visibility": "meta | non_meta",
+    "note": null,
+    "source": null
+  },
+  "allowed_current_combat_states": [
+    "noncombatant",
+    "civilian",
+    "battle_ready",
+    "unknown"
+  ],
+  "combat_state_rules": [
+    "Permanent combat capability belongs in the profile/battle reference, not live state.",
+    "Record only equipment actually worn, carried or deployed now.",
+    "A civilian or noncombatant entry may still use equipment genuinely available in the scene.",
+    "Follow npc/NPC_SYSTEM.md when permanent combat identity and mutable readiness appear to conflict."
+  ],
+  "equipment_reference_rules": [
+    "Use exact item names when known.",
+    "Keep resolution-critical mechanics in the battle reference rather than copying them into mutable state."
+  ],
+  "allowed_relationship_trends": [
+    "warming",
+    "stable",
+    "cooling",
+    "strained",
+    "hostile",
+    "unknown"
+  ],
+  "allowed_update_sources": [
+    "quicksave",
+    "dm_meta",
+    "finalized_canon",
+    "explicit_user_canon_update"
+  ],
+  "update_source_rule": "Use the source that established the current fact: quicksave, dm_meta, finalized_canon or explicit_user_canon_update.",
+  "rules": [
+    "Follow npc/NPC_SYSTEM.md for subsystem behavior.",
+    "Use knowledge/KNOWLEDGE_SYSTEM.md for reusable fact IDs and knowledge-locality rules.",
+    "Use knowledge/META_NON_META_PROTOCOL.md for player-facing visibility.",
+    "Keep biography, personality, voice and long-form history in the permanent profile or dedicated villain file.",
+    "Use Unknown or null when a current fact is not established.",
+    "Relationships are generic and keyed by the relevant entity; never hardcode one campaign character into the schema.",
+    "Knowledge arrays may contain fact-reference objects or concise local knowledge statements when no reusable fact ID is warranted.",
+    "Keep NPC knowledge local; do not copy a secret between NPCs or observers without an established reason.",
+    "Unclassified local knowledge defaults to META.",
+    "Do not treat an uncommitted plan as an NPC fact."
+  ]
+}

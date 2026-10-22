@@ -1,0 +1,7 @@
+{
+  "kind": "mentored_by",
+  "inverse_of": "mentors",
+  "allowed_source_types": ["character"],
+  "allowed_target_types": ["creature"],
+  "notes": "Fixture (invalid_reversed_endpoints): should declare allowed_source_types [creature] / allowed_target_types [character] (the reverse of mentors) but instead duplicates mentors' endpoint types verbatim."
+}

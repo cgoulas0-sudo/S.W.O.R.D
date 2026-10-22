@@ -1,0 +1,16 @@
+{
+  "run_id": "R01",
+  "execution_mode": "played",
+  "control_state": "active",
+  "scenario_id": "S01",
+  "occurred_encounter_ids": ["E02", "E03"],
+  "party_id": "party:test-party",
+  "participant_entity_ids": ["character:test-hero", "creature:test-ally"],
+  "mutable_owner_entity_ids": ["character:test-hero", "creature:test-ally"],
+  "location_ids": ["location:test-ruin"],
+  "campaign_anchor": {
+    "base_commit": "18bebc813f1af0a8478b97654bd86885e2a5bc25",
+    "campaign_time": "Day 12, dusk"
+  },
+  "outcome_summary": "The party searched the caravan and survived the ambush."
+}

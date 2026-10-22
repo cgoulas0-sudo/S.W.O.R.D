@@ -1,0 +1,5 @@
+{
+  "kind": "mentors",
+  "inverse_of": "mentored_by",
+  "notes": "Fixture (invalid_dangling_inverse): inverse_of names a kind absent from this batch."
+}

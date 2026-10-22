@@ -1,0 +1,10 @@
+{
+  "scenario_id": "S01",
+  "title": "Ruined caravan",
+  "premise": "A damaged caravan hides a dangerous opportunity.",
+  "objective": "Learn what happened and decide how to respond.",
+  "trigger_condition": "The party discovers the abandoned caravan.",
+  "primary_hook_id": "H01",
+  "related_hook_ids": ["H02"],
+  "related_entity_ids": ["character:test-hero", "location:test-ruin"]
+}

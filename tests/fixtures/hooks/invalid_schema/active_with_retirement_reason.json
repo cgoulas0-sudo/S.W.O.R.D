@@ -1,0 +1,10 @@
+{
+  "hook_id": "H11",
+  "title": "Bad retirement reason placement",
+  "objective": "Non-retired records must not carry retirement_reason.",
+  "status": "active",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": [],
+  "retirement_reason": "This field is only valid for retired Hooks."
+}

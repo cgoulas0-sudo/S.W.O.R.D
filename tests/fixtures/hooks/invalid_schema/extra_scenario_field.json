@@ -1,0 +1,10 @@
+{
+  "hook_id": "H14",
+  "title": "Scenario creep",
+  "objective": "Reject EV2-07 fields in EV2-06.",
+  "status": "active",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": [],
+  "linked_scenario": "S01"
+}

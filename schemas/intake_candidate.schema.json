@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_candidate.schema.json",
+  "title": "RHC Canon Intake Candidate",
+  "description": "Minimal repository-side envelope for material extracted from a source and awaiting human review (CI-01). A candidate is not canon, runtime, or published truth and carries no content payload. The only legal states are extracted and classified; no approval, publication, or canon state exists in this contract, and a candidate grants no canon authority, reader visibility, character knowledge, or gameplay behavior. Provenance reuses the exact HB-01 classification vocabulary and is state-conditional: forbidden while extracted (classification not yet performed) and required once classified (an explicit classification event happened; unknown remains a legal explicit outcome). Source attachment is required and must stay inspectable without copying the whole source document. No source verification, decision ledger, collision detection, promotion bridge, or persistence route belongs to this contract: those are later Canon Intake gates (CI-02+) and the existing Save Gateway.",
+  "type": "object",
+  "required": ["candidate_id", "summary", "status", "source"],
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "description": "Stable, typed, batch-unique candidate identity: the prefix is always candidate: followed by a lowercase slug.",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "summary": {
+      "description": "Required non-blank human-readable description of the extracted material, enough for later human review to know what the candidate is.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "status": {
+      "description": "Explicit pre-canon lifecycle state. extracted: material produced/identified from a source but not yet classified. classified: the candidate carries an explicit HB-01 provenance classification and is ready for the later decision workflow. No approval, publication, or canon state exists here.",
+      "type": "string",
+      "enum": ["extracted", "classified"]
+    },
+    "source": {
+      "description": "Required source attachment: enough identity to answer where the material came from without copying the entire source document. kind and reference are required non-blank identifiers; locator (source-local locator or excerpt reference), origin (author/importer context) and label are optional and must be non-blank when present. No URL registry, publisher catalogue, book/page database, or source verification.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference"],
+      "properties": {
+        "kind": {
+          "description": "Non-blank source kind/type (e.g. published_adventure, website, session_notes, chat_transcript). Free-form by design: source-kind taxonomy is not declared law.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "description": "Non-blank source identifier/reference (for example a title, URL, transcript name, or session identifier).",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "locator": {
+          "description": "Optional non-blank source-local locator or excerpt reference (page, section, timestamp) when available.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "origin": {
+          "description": "Optional non-blank origin/author/importer context where applicable.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "label": {
+          "description": "Optional non-blank human-readable label for the source.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "provenance": {
+      "description": "Canon Intake provenance classification reusing the exact HB-01 vocabulary: exactly one of official, homebrew, adapted, unknown. Logistics metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, and is never inferred. State-conditional on a candidate: required when status is classified (the classification event happened; unknown stays a legal explicit outcome) and forbidden when status is extracted (classification not yet performed, mirroring HB-01's absence-is-unclassified semantics).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification"],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": ["official", "homebrew", "adapted", "unknown"]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "extracted"}}, "required": ["status"]},
+      "then": {"not": {"required": ["provenance"]}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "classified"}}, "required": ["status"]},
+      "then": {"required": ["provenance"]}
+    }
+  ]
+}

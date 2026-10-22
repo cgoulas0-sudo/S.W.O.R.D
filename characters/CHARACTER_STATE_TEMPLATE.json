@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "purpose": "Optional persistent mutable Player Character handoff state. Create a named file only when repository tracking is needed beyond the player's normal tabletop sheet.",
+  "character_entry": {
+    "entity_key": "character:<stable_slug>",
+    "display_name": null,
+    "sheet_source": "characters/<character_slug>.md",
+    "live_state": {
+      "location": null,
+      "status": "unknown",
+      "current_hp": null,
+      "temporary_hp": null,
+      "persistent_conditions": [],
+      "persistent_effects": [],
+      "resources_that_must_survive_handoff": {}
+    },
+    "inventory_state": {
+      "owned_items": [],
+      "carried_items": [],
+      "equipped_items": [],
+      "attuned_items": [],
+      "notes": null
+    },
+    "relationships": {},
+    "knowledge": {
+      "confirmed_fact_refs": [],
+      "unconfirmed_beliefs": [],
+      "protected_secrets_known": []
+    },
+    "continuity": {
+      "last_updated_day": null,
+      "last_update_source": null
+    }
+  },
+  "allowed_update_sources": [
+    "quicksave",
+    "dm_meta",
+    "finalized_canon",
+    "explicit_user_canon_update"
+  ],
+  "rules": [
+    "The player's authoritative character sheet may remain the source for turn-by-turn HP, spell slots and other ephemeral resources.",
+    "Persist only mutable values that must survive the handoff or are not reliably owned by the normal tabletop sheet.",
+    "Player agency is never delegated by this file.",
+    "Use null or empty collections when a value is not established.",
+    "Static item mechanics belong in inventory/, not in this state file."
+  ]
+}

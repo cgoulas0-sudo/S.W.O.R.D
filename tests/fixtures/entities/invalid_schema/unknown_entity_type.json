@@ -1,0 +1,5 @@
+{
+  "entity_id": "character:test-not-an-entity-type",
+  "entity_type": "npc",
+  "display_name": "Unknown Entity Type (fixture)"
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "guarded_by",
+  "inverse_of": "guards",
+  "notes": "Fixture (invalid_one_sided_endpoints): mutually consistent inverse_of with guards, but declares no allowed_source_types/allowed_target_types at all, which must not silently be treated as an acceptable mirror of guards' declared restriction."
+}

@@ -1,0 +1,20 @@
+{
+  "id": "HXX",
+  "title": null,
+  "status": "dormant",
+  "visibility": "meta",
+  "priority": null,
+  "influence": null,
+  "start_day": null,
+  "description": null,
+  "related_characters": [],
+  "related_npcs": [],
+  "related_villains": [],
+  "related_locations": [],
+  "current_day_update": null,
+  "activation_condition": null,
+  "completion_condition": null,
+  "linked_scenario": null,
+  "scenario_role": null,
+  "source": null
+}

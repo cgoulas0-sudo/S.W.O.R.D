@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/reality.schema.json",
+  "title": "RHC Reality Identity",
+  "description": "Minimal identity record for one admitted RHC history/reality. A reality is a stable identity plus an explicit parent lineage; it is NOT a per-subject availability/scoping list and NOT a state-copy/override payload. The unique root reality is the single record that declares no parent_reality_id: the root is a structural role, not a fixed identity, so any valid reality:<lower-slug> id may serve as the root of a campaign. Every other reality declares exactly one admitted parent_reality_id, and a child reality inherits its parent unchanged by default: reality identity alone clones, removes, rewrites or scopes no Entity/Hook/Scenario/Encounter/Run/system definition. Any future divergence must be represented through the real owning domain, never through this record.",
+  "type": "object",
+  "required": ["reality_id", "display_name"],
+  "additionalProperties": false,
+  "properties": {
+    "reality_id": {
+      "type": "string",
+      "pattern": "^reality:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "parent_reality_id": {
+      "description": "Required on every non-root reality; forbidden on the structural root reality, which is the unique record that omits it. Parent lineage is explicit and is never inferred from similar names, dates, planes or Runs.",
+      "type": "string",
+      "pattern": "^reality:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    }
+  }
+}

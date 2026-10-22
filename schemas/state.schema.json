@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/state.schema.json",
+  "title": "RHC Entity V2 State (foundation)",
+  "description": "Minimal per-entity state box. Records whether this entity's current state is tracked at all (known/unknown/not_applicable) and, only when known, a flat list of independently classified attribute entries. Does not model HP, conditions, resources, goals, or relationships. An entry may record an established fact about a Player Character but must never prescribe or constrain that player's next action or choice; entry values are restricted to plain scalars so no structured directive can be stored as data.",
+  "type": "object",
+  "required": ["entity_id", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "status": {
+      "enum": ["known", "unknown", "not_applicable"]
+    },
+    "entries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["attribute", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "attribute": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "enum": ["known", "unknown", "not_applicable"]
+          },
+          "value": {
+            "type": ["string", "number", "boolean"]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "status": { "const": "known" } },
+              "required": ["status"]
+            },
+            "then": { "required": ["value"] }
+          },
+          {
+            "if": {
+              "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+              "required": ["status"]
+            },
+            "then": { "properties": { "value": false } }
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "known" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["entries"],
+        "properties": { "entries": { "minItems": 1 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+        "required": ["status"]
+      },
+      "then": { "properties": { "entries": false } }
+    }
+  ]
+}

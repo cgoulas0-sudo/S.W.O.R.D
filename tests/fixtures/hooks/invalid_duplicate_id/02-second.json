@@ -1,0 +1,9 @@
+{
+  "hook_id": "H08",
+  "title": "Second duplicate",
+  "objective": "Second record illegally reuses H08.",
+  "status": "active",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": []
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "purpose": "Mutable persistent location continuity. Create a named state file only when a location has state worth carrying across sessions/handoffs.",
+  "location_entry": {
+    "entity_key": "location:<stable_slug>",
+    "display_name": null,
+    "profile_source": "locations/profiles/<location_slug>.md",
+    "state": {
+      "current_controller_entity_key": null,
+      "ownership_status": "unknown",
+      "access_status": "unknown",
+      "condition": "unknown",
+      "security_posture": "unknown",
+      "active_function": null,
+      "current_narrative_pressure": null
+    },
+    "durable_presence": [],
+    "stored_assets_summary": [],
+    "continuity": {
+      "last_updated_day": null,
+      "last_update_source": null,
+      "source_event_key": null
+    }
+  },
+  "allowed_update_sources": [
+    "quicksave",
+    "dm_meta",
+    "finalized_canon",
+    "explicit_user_canon_update"
+  ],
+  "rules": [
+    "Do not create this record for a prose-only location with no persistent mutable state.",
+    "Do not duplicate permanent description from the profile.",
+    "Track only state that can matter later: control, access, condition, security, function, durable presence or location-bound assets.",
+    "Use unknown or null rather than inventing a current condition."
+  ]
+}

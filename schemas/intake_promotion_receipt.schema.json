@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_promotion_receipt.schema.json",
+  "title": "RHC Canon Intake Promotion Receipt",
+  "description": "Minimal repository-side promotion receipt for Canon Intake (CI-04): the record of what authoritative route a promotion instruction invoked and the authoritative read-back evidence that route returned. A receipt is evidence, not authority: it never itself performs or authorizes a write, and it exists only to bind a promotion_id to the route actually used, the outcome, and (for success) the exact durable identity read back from the authoritative owner. The schema enforces the closed shape and vocabulary; scripts/validate_intake_promotions.py enforces the route-conditional sufficiency of the evidence. A success receipt for runtime_save must carry runtime_publication evidence identifying a positive published generation and an exact confirmed 40-hex git_ref; a success receipt for repository_canon must carry repository_commit evidence identifying an exact 40-hex repository commit. In both cases the evidence must be verifier-confirmed. A failure receipt carries no success evidence at all, so a failure can never masquerade as success, and a success receipt can never validate without authoritative read-back evidence. There is no generic direct SQL/Git/runtime-published write mechanism here.",
+  "type": "object",
+  "required": ["receipt_id", "promotion_id", "candidate_id", "route", "outcome"],
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": {
+      "description": "Stable, typed, set-unique receipt identity: the prefix is always receipt: followed by a lowercase slug. A duplicate receipt_id within one validated promotion set fails closed.",
+      "type": "string",
+      "pattern": "^receipt:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "promotion_id": {
+      "description": "Referenced promotion instruction identity, using the exact intake_promotion.schema.json grammar. It must resolve to a valid instruction in the same validated set; an unknown promotion_id fails closed.",
+      "type": "string",
+      "pattern": "^promotion:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "candidate_id": {
+      "description": "Referenced CI-01 candidate identity, using the exact intake_candidate.schema.json grammar. It must equal the resolved promotion instruction's candidate_id; a receipt cannot silently re-point the promotion at another candidate.",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "route": {
+      "description": "The route actually used by the authoritative owner. It must equal the resolved promotion instruction's route; a receipt that reports a different route than the instruction declared fails closed. Closed vocabulary: runtime_save | repository_canon.",
+      "type": "string",
+      "enum": ["runtime_save", "repository_canon"]
+    },
+    "outcome": {
+      "description": "The authoritative routed outcome: exactly success or failure. A success receipt requires authoritative read-back evidence for its route; a failure receipt must not carry success evidence. There is no third outcome, no pending, and no optimistic success.",
+      "type": "string",
+      "enum": ["success", "failure"]
+    },
+    "evidence": {
+      "description": "Authoritative verification/read-back evidence. It is a closed object whose fields are route-specific: runtime_publication carries a positive integer generation and the exact confirmed 40-hex runtime-published git_ref; repository_commit carries the exact 40-hex durable repository commit. confirmed must be true: an unconfirmed or unread-back result is never success. Required for a success receipt and forbidden for a failure receipt (enforced by scripts/validate_intake_promotions.py).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "confirmed"],
+      "properties": {
+        "kind": {
+          "description": "The authoritative evidence kind: runtime_publication for the RT01 published runtime surface, repository_commit for the repository-authorized canon/static surface.",
+          "type": "string",
+          "enum": ["runtime_publication", "repository_commit"]
+        },
+        "generation": {
+          "description": "RT01 published generation read back from the runtime surface (positive integer; generation 0 is the empty pre-activation world and is not a publication).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "git_ref": {
+          "description": "Exact confirmed 40-hex lowercase runtime-published checkpoint commit SHA read back for the same database-owned generation.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "commit": {
+          "description": "Exact 40-hex lowercase durable repository commit SHA read back from the repository-authorized canon/static surface.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "confirmed": {
+          "description": "Verifier confirmation marker. It is exactly true: a publication or repository change that was not read back and confirmed for the same identity is not success.",
+          "const": true
+        }
+      }
+    },
+    "failure_reason": {
+      "description": "Optional non-blank human-readable reason for a failed or incomplete route execution; logistics metadata only and never success evidence.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "note": {
+      "description": "Optional non-blank human note about the receipt; logistics metadata only.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

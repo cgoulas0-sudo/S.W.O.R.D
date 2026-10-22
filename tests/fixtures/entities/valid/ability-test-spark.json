@@ -1,0 +1,7 @@
+{
+  "entity_id": "ability:test-spark",
+  "entity_type": "ability",
+  "subtype": "spell",
+  "display_name": "Test Spark (fixture)",
+  "references": ["status_effect:test-chill"]
+}

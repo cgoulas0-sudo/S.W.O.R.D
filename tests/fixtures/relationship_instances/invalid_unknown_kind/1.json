@@ -1,0 +1,6 @@
+{
+  "relationship_id": "unknown-kind",
+  "source_id": "character:test-a",
+  "kind": "commands",
+  "target_id": "faction:test-b"
+}

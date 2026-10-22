@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_candidate_material.schema.json",
+  "title": "RHC Canon Intake Candidate Material",
+  "description": "Minimal repository-side sidecar envelope for Canon Intake candidate material (CI-02.1): the actual material extracted for one CI-01 candidate, plus enough proposed-target intent and base-publication context for the later CI-03 collision/re-import checks. The envelope is a sidecar keyed to the referenced CI-01 candidate_id and is never a source of truth: the payload is candidate material, not canon, runtime, published, or authoritative state, and the envelope grants no canon authority, reader visibility, character knowledge, or gameplay behavior. Source attachment and provenance classification remain owned by the referenced CI-01 candidate and are resolved through candidate_id; they are deliberately not duplicated here (additionalProperties false rejects any attempt). proposed_target is proposed intent only: it is never reconciled owner truth and never becomes authority by being recorded, and an unknown target stays explicitly absent, never guessed. base_publication pins the RT01 published generation and/or the exact published checkpoint commit SHA when known, for later stale/re-import context; unknown stays absent, never inferred. There is no approved/rejected/published/canon state in this contract (CI-02 owns human decisions; CI-04 owns promotion), no collision/re-import detection (CI-03), and no persistence route: exactly one envelope per candidate per validated set, validated by scripts/validate_intake_candidate_material.py against the CI-01 candidate batch (validated by the CI-01 contract first).",
+  "type": "object",
+  "required": ["candidate_id", "material_type", "material"],
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "description": "Referenced CI-01 candidate identity, using the exact intake_candidate.schema.json grammar: candidate: followed by a lowercase slug. The envelope references and never rewrites the candidate; source/provenance truth stays attached through the referenced candidate. Exactly one material envelope per candidate may exist in one validated material set (deterministic duplicate detection at the contract layer).",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "material_type": {
+      "description": "Required non-blank free-form label for the material's type/kind (for example lore_text, stat_block, map_description, npc_concept), sufficient for later routing/comparison. No type taxonomy is declared law: free-form by design, like source.kind in CI-01.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "material": {
+      "description": "Required non-blank actual candidate material/payload: the extracted content itself, preserved outside the CI-01 candidate identity envelope. Candidate material only: never authoritative state, never canon/runtime/published truth, and never auto-promoted. Free-form text by design; CI-02.1 owns no domain-specific payload schema.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "proposed_target": {
+      "description": "Optional proposed target/owner intent, represented only when actually known: where the material is proposed to land. Proposed intent is NOT reconciled owner truth and grants no authority; an unknown target stays explicitly absent (omit the field), never guessed or inferred.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference"],
+      "properties": {
+        "kind": {
+          "description": "Non-blank free-form target kind (for example npc, location, item, quest). No target-kind taxonomy is declared law.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "description": "Non-blank target reference (for example an entity_id, a name, or another stable identifier of the proposed destination).",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "label": {
+          "description": "Optional non-blank human-readable label for the proposed target.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "base_publication": {
+      "description": "Optional base-publication pin for later stale/re-import context, represented only when actually known: the RT01 published generation and/or the exact published checkpoint commit SHA the material was extracted against. Unknown stays explicitly absent, never inferred; CI-03 may later classify material without a usable pin as unresolved/not collision-clear. At least one pin field is required when the object is present: an empty pin object is meaningless and fails closed.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "generation": {
+          "description": "Non-negative RT01 published generation number (0 is the empty pre-activation world), matching the runtime floor's published_generation semantics. Must be an integer when present; malformed values fail closed.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "git_ref": {
+          "description": "Exact published checkpoint commit SHA (40 lowercase hex characters) on the runtime-published provenance surface, matching the RT01 exact-read-back contract. Malformed values fail closed.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    }
+  }
+}

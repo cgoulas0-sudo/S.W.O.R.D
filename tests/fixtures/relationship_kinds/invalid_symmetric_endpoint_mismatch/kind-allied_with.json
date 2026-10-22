@@ -1,0 +1,7 @@
+{
+  "kind": "allied_with",
+  "symmetric": true,
+  "allowed_source_types": ["character"],
+  "allowed_target_types": ["faction"],
+  "notes": "Fixture (invalid_symmetric_endpoint_mismatch): symmetric kind whose allowed_source_types and allowed_target_types describe different domains, which a relation that reads the same in both directions must not allow."
+}

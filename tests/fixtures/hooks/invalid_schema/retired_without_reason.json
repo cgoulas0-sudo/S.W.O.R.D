@@ -1,0 +1,9 @@
+{
+  "hook_id": "H10",
+  "title": "Missing retirement reason",
+  "objective": "Retired records must explain why.",
+  "status": "retired",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": []
+}

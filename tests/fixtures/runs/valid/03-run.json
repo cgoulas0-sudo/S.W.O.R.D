@@ -1,0 +1,14 @@
+{
+  "run_id": "R03",
+  "execution_mode": "off_screen",
+  "control_state": "not_applicable",
+  "scenario_id": "S02",
+  "occurred_encounter_ids": [],
+  "participant_entity_ids": ["character:test-returning"],
+  "mutable_owner_entity_ids": ["character:test-returning"],
+  "location_ids": [],
+  "campaign_anchor": {
+    "base_commit": "18bebc813f1af0a8478b97654bd86885e2a5bc25",
+    "campaign_time": "Day 13, dawn"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "entity_id": "status_effect:test-mismatch",
+  "entity_type": "ability",
+  "display_name": "Ability/Status-Effect Prefix Mismatch (fixture)"
+}

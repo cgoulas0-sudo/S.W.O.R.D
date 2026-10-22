@@ -1,0 +1,10 @@
+{
+  "scenario_id": "S02",
+  "title": "Faction parley",
+  "premise": "Two factions seek leverage at the same meeting.",
+  "objective": "Navigate the meeting without assuming a fixed outcome.",
+  "trigger_condition": "The active Hook brings the parties together.",
+  "primary_hook_id": "H02",
+  "related_hook_ids": [],
+  "related_entity_ids": ["faction:test-faction", "location:test-hall"]
+}

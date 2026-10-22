@@ -1,0 +1,7 @@
+{
+  "kind": "child_of",
+  "inverse_of": "parent_of",
+  "allowed_source_types": ["character", "creature"],
+  "allowed_target_types": ["character", "creature"],
+  "notes": "Fixture kind (EV2-05 Patch 1): inverse pair of parent_of."
+}

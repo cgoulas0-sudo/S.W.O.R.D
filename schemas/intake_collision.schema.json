@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_collision.schema.json",
+  "title": "RHC Canon Intake Collision Result",
+  "description": "Minimal repository-side collision-classification record for Canon Intake (CI-03): the deterministic result of comparing one explicitly human-approved CI-01 candidate and its CI-02.1 material/target/base sidecar against one trusted caller-supplied observation of current authoritative target/publication state, immediately before any CI-04 promotion. Each record carries exactly one observation, and that observation is bound to the referenced candidate's proposed_target through observation.target, which scripts/validate_intake_collisions.py requires to match the referenced material envelope's proposed_target exactly (kind + reference); one observation therefore cannot clear multiple different targets. CI-03 is a pure classifier: it owns no repository crawling, no network access, no semantic/fuzzy comparison, no conflict resolution, no mutation of canon or runtime state, and no Save Gateway route; the caller obtains authoritative current evidence from the correct repository/runtime owner and CI-03 only classifies that evidence. Exactly one result per candidate per validated collision set; the referenced candidate_id, material envelope, decision, and observation inputs are read-only and remain unchanged. The result vocabulary is closed: clear, duplicate, stale, conflict, unresolved. Only clear is promotion-eligible; duplicate, stale, conflict, and unresolved all fail closed for promotion (CI-04). The reason field must equal the deterministic reason the classifier computes for the same observation and evidence; a caller-authored reason that does not match fails closed. The core law is unchanged: extracted != classified != DM-approved != canon, and a collision result is never canon authority, runtime authority, or a second truth store.",
+  "type": "object",
+  "required": ["collision_id", "candidate_id", "observation", "result", "reason"],
+  "additionalProperties": false,
+  "properties": {
+    "collision_id": {
+      "description": "Stable, typed, set-unique collision-result identity: the prefix is always collision: followed by a lowercase slug. A duplicate collision_id within one validated collision set fails closed.",
+      "type": "string",
+      "pattern": "^collision:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "candidate_id": {
+      "description": "Referenced CI-01 candidate identity, using the exact intake_candidate.schema.json grammar: candidate: followed by a lowercase slug. The result references and never rewrites the candidate, its decision, or its material envelope; source/provenance truth stays attached through the referenced candidate. At most one collision result per candidate may exist in one validated collision set; a duplicate result for the same candidate fails closed.",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "observation": {
+      "description": "The trusted caller-supplied observation this classification consumed. It is bound to the referenced candidate's proposed_target: observation.target is required (and must exactly equal the referenced CI-02.1 material envelope's proposed_target kind + reference) whenever that envelope proposes a target, and is forbidden when the envelope proposes none. target_identity, when present, carries only caller-known current publication identity and is strictly validated (non-negative integer generation and/or 40-hex lowercase git_ref; unknown fields, malformed types, booleans, negative values, and bad SHAs fail closed). current_material is the current authoritative target material, present only for a present target, and may be omitted when the caller cannot retrieve it, in which case the classification is unresolved.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_state"],
+      "properties": {
+        "target": {
+          "description": "The proposed target this observation is about, using the same free-form kind + non-blank reference grammar as CI-02.1 proposed_target. The validator requires this to match the referenced material envelope's proposed_target exactly (kind + reference), so one observation cannot clear multiple different targets; it is forbidden when the envelope proposes no target.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "reference"],
+          "properties": {
+            "kind": {
+              "description": "Non-blank free-form target kind (for example npc, location, item, quest). No target-kind taxonomy is declared law.",
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "reference": {
+              "description": "Non-blank target reference (for example an entity_id, a name, or another stable identifier of the proposed destination).",
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "target_state": {
+          "description": "The caller's authoritative observation of the proposed target in current truth: exactly absent (known not to exist), present (known to exist), or unknown (evidence not obtained; stays Unknown and classifies unresolved). Missing/insufficient evidence must be reported as unknown, never guessed as absent.",
+          "type": "string",
+          "enum": ["absent", "present", "unknown"]
+        },
+        "target_identity": {
+          "description": "Optional caller-known current publication identity, represented only when actually known: the RT01 published generation and/or the exact published checkpoint commit SHA. Strictly validated: at least one pin is required when present, generation is a non-negative integer (booleans and malformed numeric types fail closed), git_ref is exactly 40 lowercase hex characters, and unknown fields are rejected. Unknown stays absent, never inferred.",
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "generation": {
+              "description": "Non-negative RT01 published generation number (0 is the empty pre-activation world), matching the runtime floor's published_generation semantics. Must be an integer when present; malformed values fail closed.",
+              "type": "integer",
+              "minimum": 0
+            },
+            "git_ref": {
+              "description": "Exact published checkpoint commit SHA (40 lowercase hex characters) on the runtime-published provenance surface, matching the RT01 exact-read-back contract. Malformed values fail closed.",
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          }
+        },
+        "current_material": {
+          "description": "Optional current authoritative target material, represented only when the target is present. It may be omitted when the caller cannot retrieve it, in which case the classifier records unresolved rather than guessing. Exact byte-faithful comparison only: no normalization, no fuzzy or semantic equivalence. Forbidden when the target state is not present.",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"target_state": {"enum": ["absent", "unknown"]}},
+            "required": ["target_state"]
+          },
+          "then": {"not": {"required": ["current_material"]}}
+        }
+      ]
+    },
+    "result": {
+      "description": "The closed deterministic classification vocabulary: exactly one of clear (proposed target known absent from current authoritative truth), duplicate (present target material exactly equals candidate material), stale (candidate base_publication pin conflicts with known current publication, decided before any content comparison), conflict (present target material differs from candidate material), or unresolved (missing/insufficient authoritative comparison evidence). Only clear is eligible to continue toward CI-04; every other result fails closed for promotion. No fuzzy or semantic equality exists anywhere in CI-03.",
+      "type": "string",
+      "enum": ["clear", "duplicate", "stale", "conflict", "unresolved"]
+    },
+    "reason": {
+      "description": "Required deterministic justification that must exactly equal the reason the classifier computes for this observation and evidence. It is authoritative evidence trail, not free-form prose: a caller-authored reason that does not match the computed reason fails closed. Human-readable notes belong in note.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "note": {
+      "description": "Optional non-blank human note about the classification (for example which later reconciliation owner must handle a conflict). Logistics metadata only; it never changes the result or the reason.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

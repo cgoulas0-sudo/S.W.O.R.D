@@ -1,0 +1,7 @@
+{
+  "entity_id": "character:test-entry-unknown-with-value",
+  "status": "known",
+  "entries": [
+    { "attribute": "current_location", "status": "unknown", "value": "Eagle's Nest" }
+  ]
+}

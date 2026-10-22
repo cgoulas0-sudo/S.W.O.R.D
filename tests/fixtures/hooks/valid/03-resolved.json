@@ -1,0 +1,9 @@
+{
+  "hook_id": "H03",
+  "title": "Resolved fixture quest",
+  "objective": "Track a quest that reached a valid conclusion.",
+  "status": "resolved",
+  "activation_condition": "The actionable lead was accepted.",
+  "resolution_condition": "The objective was conclusively resolved in play.",
+  "related_entity_ids": ["party:test-party"]
+}

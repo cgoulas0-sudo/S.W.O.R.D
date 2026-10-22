@@ -1,0 +1,9 @@
+{
+  "encounter_id": "E03",
+  "scenario_id": "S01",
+  "title": "Ambush pressure",
+  "scene_type": "combat",
+  "setup": "Hostile creatures may contest the site if events lead there.",
+  "immediate_objective": "Survive or overcome the immediate threat.",
+  "related_entity_ids": ["creature:test-target"]
+}

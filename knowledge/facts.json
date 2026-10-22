@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "system": "Rolling High Club Canonical Facts",
+  "purpose": "Stable reusable world facts with explicit META/NON_META visibility. Character-specific knowledge remains local to NPC/character state.",
+  "default_visibility": "meta",
+  "next_fact_id": "F001",
+  "facts": [],
+  "fact_schema": {
+    "fact_id": "Fxxx",
+    "title": "string",
+    "statement": "string",
+    "status": "canon",
+    "domain": "string",
+    "visibility": "meta | non_meta",
+    "related_entities": [],
+    "source_status": "rhc_canon | explicit_dm_canon | official_forgotten_realms | official_dnd_rules | mixed_rhc_and_official",
+    "source_note": null,
+    "revealed_in_session": null,
+    "revealed_to": [],
+    "reveal_note": null
+  }
+}

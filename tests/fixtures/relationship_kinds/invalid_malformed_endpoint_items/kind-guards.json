@@ -1,0 +1,7 @@
+{
+  "kind": "guards",
+  "symmetric": true,
+  "allowed_source_types": [{"not": "a string"}],
+  "allowed_target_types": ["character"],
+  "notes": "Fixture (invalid_malformed_endpoint_items): allowed_source_types contains an unhashable nested object instead of a string, which the schema already rejects but must not crash the registry-level endpoint-mirroring check."
+}

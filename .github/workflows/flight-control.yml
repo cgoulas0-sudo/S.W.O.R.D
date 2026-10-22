@@ -1,0 +1,152 @@
+name: Flight Control
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  repository_validation:
+    name: Repository Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository control files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            AGENT_HANDOFF.md
+            BUILDER.md
+            ORCHESTRATOR.md
+            PLAY.md
+            AGENTS.md
+            CLAUDE.md
+            README.md
+            PROJECT_PRIMER.md
+            CHANGELOG.md
+            ENGINE_CHANGELOG.md
+            docs/DM_CONTROL_ROOM.md
+            docs/RHC_WORKSYSTEM.md
+            tests/test_workflow_dropgate.py
+          )
+          for path in "${required[@]}"; do
+            test -e "$path"
+          done
+          test ! -e JOHNNY_CHECKPOINT.md
+
+  flight_control:
+    name: Flight Control
+    runs-on: ubuntu-latest
+    needs: repository_validation
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify agent workflow boundary
+        shell: bash
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -euo pipefail
+          test "$BASE_REF" = "main"
+          grep -Fq "Repository Dropgate" AGENT_HANDOFF.md
+          grep -Fq "Approved BUILD Mission that still needs JOHNNY Issue / BUILD-branch setup" AGENT_HANDOFF.md
+          grep -Fq "Prepared BUILD Mission with its JOHNNY Issue and BUILD branch already established" AGENT_HANDOFF.md
+          grep -Fq "BUILDER.md" AGENT_HANDOFF.md
+          grep -Fq "DM_CONTROL_ROOM.md" AGENT_HANDOFF.md
+
+          grep -Fq "zero useful memory" BUILDER.md
+          grep -Fq "git fetch origin" BUILDER.md
+          grep -Fq "locate exactly one clearly labelled open **JOHNNY CHECKPOINT** Issue whose BUILD/HEAD BRANCH exactly matches the current branch" BUILDER.md
+          grep -Fq "Verify REPOSITORY + BUILD/HEAD BRANCH + BASE SHA + MISSION IDENTITY against actual repository state" BUILDER.md
+          grep -Fq "no unique matching JOHNNY exists" BUILDER.md
+          grep -Fq "REQUIRED REPOSITORY READS" BUILDER.md
+          grep -Fq "JOHNNY defines the Mission. Repository files define implementation truth." BUILDER.md
+          grep -Fq "Report before push" BUILDER.md
+          grep -Fq "After Orchestrator release:" BUILDER.md
+          grep -Fq "fresh exact-head semantic review" BUILDER.md
+          grep -Fq "Merge only when the Orchestrator has verified the exact HEAD has:" BUILDER.md
+          grep -Fq "current green required proof/CI" BUILDER.md
+          grep -Fq "fresh exact-head semantic clearance" BUILDER.md
+          grep -Fq "required pre-merge sanity" BUILDER.md
+          grep -Fq "Merge only that exact cleared HEAD." BUILDER.md
+          grep -Fq "STOP and return to the Orchestrator" BUILDER.md
+          grep -Fq 'Do not look for or create `JOHNNY_CHECKPOINT.md`' BUILDER.md
+
+          grep -Fq "sufficient Builder Mission Packet" ORCHESTRATOR.md
+          grep -Fq "BASE SHA: [exact approved starting commit]" ORCHESTRATOR.md
+          grep -Fq "WHAT: [What behavior/outcome is approved?]" ORCHESTRATOR.md
+          grep -Fq "KNOWN SCARS / FAILURE MODES" ORCHESTRATOR.md
+          grep -Fq "REQUIRED REPOSITORY READS" ORCHESTRATOR.md
+          grep -Fq "CURRENT BUILDER GATE" ORCHESTRATOR.md
+          grep -Fq "Orchestrator CODEX" ORCHESTRATOR.md
+          grep -Fq "JOHNNY UPDATE RULE" ORCHESTRATOR.md
+          grep -Fq 'Do NOT create `JOHNNY_CHECKPOINT.md`' ORCHESTRATOR.md
+          grep -Fq "STOP and return to the Orchestrator" ORCHESTRATOR.md
+
+          grep -Fq "AGENT_HANDOFF.md" AGENTS.md
+          grep -Fq "AGENT_HANDOFF.md" CLAUDE.md
+
+          # Restored universal Dropgate lanes (BUILD / PLAY / SAVE / READ / UNKNOWN-CONFLICT)
+          grep -Fq "### BUILD" AGENT_HANDOFF.md
+          grep -Fq "### PLAY" AGENT_HANDOFF.md
+          grep -Fq "### SAVE" AGENT_HANDOFF.md
+          grep -Fq "### READ" AGENT_HANDOFF.md
+          grep -Fq "### UNKNOWN / CONFLICT" AGENT_HANDOFF.md
+          grep -Fq "STOP and ASK" AGENT_HANDOFF.md
+          grep -Fq "Do not default to BUILD" AGENT_HANDOFF.md
+          grep -Fq "READ performs no mutation" AGENT_HANDOFF.md
+          grep -Fq "committed repository state" AGENT_HANDOFF.md
+
+          # Mandatory Continuity Gate in the Builder cockpit
+          grep -Fq "Mandatory Continuity Gate" BUILDER.md
+          grep -Fq "separate mandatory input species" BUILDER.md
+
+          # Restored JOHNNY template sections + review scope-classification law
+          grep -Fq "PORT / REFERENCE CONTRACT" ORCHESTRATOR.md
+          grep -Fq "SURFACE BUDGET" ORCHESTRATOR.md
+          grep -Fq "DEFERRED OWNERSHIP" ORCHESTRATOR.md
+          grep -Fq "CONTINUITY READS" ORCHESTRATOR.md
+          grep -Fq "REVIEW SCOPE CLASSIFICATION LAW" ORCHESTRATOR.md
+          grep -Fq "Severity is not scope" ORCHESTRATOR.md
+
+          # PLAY cockpit is separated from BUILD machinery
+          grep -Fq "PLAY is not BUILD" PLAY.md
+          grep -Fq "DM_CONTROL_ROOM.md" PLAY.md
+          grep -Fq "RHC_WORKSYSTEM.md" PLAY.md
+
+          # Continuity ledgers exist with a bounded start and milestone (not per-PR) semantics
+          grep -Fq "Ledger start" CHANGELOG.md
+          grep -Fq "Ledger start" ENGINE_CHANGELOG.md
+          grep -Fq "milestone" CHANGELOG.md
+          grep -Fq "milestone" ENGINE_CHANGELOG.md
+          grep -Fq "not a per-PR" CHANGELOG.md
+          grep -Fq "not a per-PR" ENGINE_CHANGELOG.md
+          # The rejected per-PR ledger gate (validator + exemption-token/both-ledgers
+          # enforcement) must stay absent. That absence is proven by the contract
+          # suite run in the workflow_contract job (tests/test_workflow_dropgate.py).
+
+          # Repair contracts (pre-Codex audit): READ->live-Asana-first, source-agnostic
+          # continuity, explicit one-time bootstrap ledger seed, and PLAY save re-route.
+          grep -Fq "live Asana first" AGENT_HANDOFF.md
+          grep -Fq "source-agnostic" BUILDER.md
+          grep -Fq "source-agnostic" ORCHESTRATOR.md
+          grep -Fq "Bootstrap seed exception" CHANGELOG.md
+          grep -Fq "Bootstrap seed exception" ENGINE_CHANGELOG.md
+          grep -Fq "re-route" PLAY.md
+
+  workflow_contract:
+    name: Workflow Contract Suite
+    runs-on: ubuntu-latest
+    needs: repository_validation
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run workflow / Dropgate contract suite
+        run: pytest tests/test_workflow_dropgate.py -v

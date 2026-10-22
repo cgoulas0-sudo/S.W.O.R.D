@@ -1,0 +1,6 @@
+{
+  "relationship_id": "fixture-duplicate-id",
+  "source_id": "character:test-b",
+  "kind": "serves",
+  "target_id": "faction:test-b"
+}

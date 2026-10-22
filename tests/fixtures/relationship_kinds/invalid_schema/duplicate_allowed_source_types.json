@@ -1,0 +1,5 @@
+{
+  "kind": "guards",
+  "allowed_source_types": ["character", "character"],
+  "notes": "Fixture (invalid): allowed_source_types must not repeat a type."
+}

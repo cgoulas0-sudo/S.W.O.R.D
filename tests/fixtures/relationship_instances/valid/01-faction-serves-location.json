@@ -1,0 +1,6 @@
+{
+  "relationship_id": "fixture-rel-faction-serves-location",
+  "source_id": "faction:test-faction",
+  "kind": "serves",
+  "target_id": "location:test-city"
+}

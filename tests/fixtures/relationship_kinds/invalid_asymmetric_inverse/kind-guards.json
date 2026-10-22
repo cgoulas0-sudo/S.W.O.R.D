@@ -1,0 +1,5 @@
+{
+  "kind": "guards",
+  "inverse_of": "guarded_by",
+  "notes": "Fixture (invalid_asymmetric_inverse): declares guarded_by as its inverse, but guarded_by does not point back."
+}

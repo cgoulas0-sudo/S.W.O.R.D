@@ -1,0 +1,6 @@
+{
+  "kind": "mirrors",
+  "symmetric": true,
+  "inverse_of": "mirrors",
+  "notes": "Fixture (invalid): a symmetric kind must not also declare inverse_of."
+}

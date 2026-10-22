@@ -1,0 +1,6 @@
+{
+  "relationship_id": "bad-source",
+  "source_id": "villain:gork",
+  "kind": "serves",
+  "target_id": "faction:test-b"
+}

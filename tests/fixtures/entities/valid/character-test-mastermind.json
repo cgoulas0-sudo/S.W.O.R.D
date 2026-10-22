@@ -1,0 +1,7 @@
+{
+  "entity_id": "character:test-mastermind",
+  "entity_type": "character",
+  "subtype": "villain",
+  "display_name": "Test Mastermind (fixture)",
+  "references": ["character:test-hero", "faction:test-guild"]
+}

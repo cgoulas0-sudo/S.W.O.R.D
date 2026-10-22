@@ -1,0 +1,9 @@
+{
+  "encounter_id": "E04",
+  "scenario_id": "S02",
+  "title": "Negotiation under pressure",
+  "scene_type": "mixed",
+  "setup": "Talks continue while an external threat complicates the scene.",
+  "immediate_objective": "Respond to the pressure without assuming combat is mandatory.",
+  "related_entity_ids": ["character:test-hero", "faction:test-faction"]
+}

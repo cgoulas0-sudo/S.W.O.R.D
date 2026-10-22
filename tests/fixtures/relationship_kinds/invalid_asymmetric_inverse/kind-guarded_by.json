@@ -1,0 +1,5 @@
+{
+  "kind": "guarded_by",
+  "inverse_of": "commands",
+  "notes": "Fixture (invalid_asymmetric_inverse): mutually consistent with commands, used to isolate the mismatch onto guards."
+}

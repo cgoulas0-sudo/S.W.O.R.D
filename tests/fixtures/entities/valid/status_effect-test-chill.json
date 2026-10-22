@@ -1,0 +1,6 @@
+{
+  "entity_id": "status_effect:test-chill",
+  "entity_type": "status_effect",
+  "subtype": "condition",
+  "display_name": "Test Chill (fixture)"
+}

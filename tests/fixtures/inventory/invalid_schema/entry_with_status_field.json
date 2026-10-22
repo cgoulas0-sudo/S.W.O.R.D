@@ -1,0 +1,12 @@
+{
+  "entity_id": "character:test-entry-with-status-field",
+  "status": "known",
+  "entries": [
+    {
+      "name": "+3 Maul",
+      "description": "A fictional magic maul used only as fixture data.",
+      "quantity": 1,
+      "status": "known"
+    }
+  ]
+}

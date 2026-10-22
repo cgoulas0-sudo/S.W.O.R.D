@@ -1,0 +1,9 @@
+{
+  "hook_id": "H12",
+  "title": "Bad status",
+  "objective": "Reject unsupported lifecycle states.",
+  "status": "failed",
+  "activation_condition": "Fixture only.",
+  "resolution_condition": "Fixture only.",
+  "related_entity_ids": []
+}

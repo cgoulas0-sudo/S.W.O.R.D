@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/inventory.schema.json",
+  "title": "RHC Entity V2 Inventory",
+  "description": "Owner-local inventory record (EV2-10 evolution of the EV2-03 foundation). A record still belongs to exactly one owning entity and records whether that entity's inventory is tracked at all (known/unknown/not_applicable). When known, it carries ordinary possessions as `entries` (each an explicit name + description + quantity) plus a structurally separate D&D `currency` object using exactly the official cp/sp/ep/gp/pp denominations. An entry's presence in the list is itself the established fact; entries carry no independent status field, because a listed item cannot itself be unknown or not_applicable the way a state or knowledge attribute can. Quantity is explicit (no implicit 1): zero quantity is absence and is never stored as an entry. Entries are unique under JSON item equality, so an equal name + description + quantity entry - including numerically equal quantities such as 1 and 1.0 - is a double-count. Currency is optional; when present it must be an object, so an explicit `currency: null` is invalid rather than a synonym for omission. Currency balances are non-negative integers and are never encoded as ordinary text items. Inventory truth remains owner-local: this is the same model for a Character inventory and a Party stash, not a separate stash subsystem. Individual persistent item identity/custody is deliberately not modelled here and is not inferred from this record; that is the later EV2-11 gate. This record also does not model custody transfer, equipped/attuned state, category/taxonomy, encumbrance, or provenance.",
+  "type": "object",
+  "required": ["entity_id", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "status": {
+      "enum": ["known", "unknown", "not_applicable"]
+    },
+    "entries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "quantity"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "currency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cp": { "type": "integer", "minimum": 0 },
+        "sp": { "type": "integer", "minimum": 0 },
+        "ep": { "type": "integer", "minimum": 0 },
+        "gp": { "type": "integer", "minimum": 0 },
+        "pp": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "known" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["entries"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "entries": false,
+          "currency": false
+        }
+      }
+    }
+  ]
+}

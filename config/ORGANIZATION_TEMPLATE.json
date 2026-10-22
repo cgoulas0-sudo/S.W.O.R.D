@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "system": "<Organization Registry Name>",
+  "status": "template_inert_until_explicitly_instantiated",
+  "purpose": "Static organization structure and workforce/facility definitions. Mutable condition and deployment belong in current state.",
+  "organization": {
+    "entity_key": "organization:<stable_slug>",
+    "display_name": null,
+    "type": null,
+    "leadership": [],
+    "headquarters_location": null,
+    "divisions": {},
+    "workforce_total": null,
+    "workforce": {},
+    "facilities": [],
+    "durable_assets": [],
+    "source_notes": []
+  },
+  "rules": [
+    "This template creates no organization in RHC canon.",
+    "Create a separately named registry/configuration file for an established organization.",
+    "Static structure belongs here; current deployment, damage, money and temporary operational condition belong in current state.",
+    "Do not invent headcount, facilities or personnel to complete the template."
+  ]
+}

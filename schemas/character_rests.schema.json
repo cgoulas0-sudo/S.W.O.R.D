@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/character_rests.schema.json",
+  "title": "RHC Character Rests (POST-EV2-10)",
+  "description": "Bounded operational per-character Rest lifecycle record for one tracked character:<slug>. One character owns exactly one Rest lifecycle record; a shared camp scene contains several independent records, never one shared mechanical Rest record. The record carries only the Rest lifecycle state and its authoritative elapsed-time anchors/interruption state (never HP, Hit Dice, spell slots or feature charges, which POST-EV2-9 owns). Progress is derived from RT02 elapsed campaign minutes plus this bounded state; no minute-by-minute ticks are persisted. Long-Rest implementation/eligibility anchors are engine-derived from authoritative published elapsed time, never caller-invented wall-clock time.",
+  "type": "object",
+  "required": [
+    "character_id",
+    "schema_version",
+    "status",
+    "rest_kind",
+    "started_at_elapsed_minutes",
+    "required_minutes",
+    "completed_at_elapsed_minutes",
+    "last_long_rest_completed_at_elapsed_minutes",
+    "interruptions",
+    "short_benefit_granted"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "character_id": {
+      "type": "string",
+      "pattern": "^character:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "description": "idle = no current attempt; active = an in-progress Short or Long Rest; completed = the attempt finished with benefits applied; interrupted = a Short Rest broken with no benefits (a Long Rest instead resumes and stays active).",
+      "enum": ["idle", "active", "completed", "interrupted"]
+    },
+    "rest_kind": {
+      "description": "The kind of the current/last attempt; null only while idle.",
+      "type": ["string", "null"],
+      "enum": ["short", "long", null]
+    },
+    "started_at_elapsed_minutes": {
+      "description": "Engine-derived absolute elapsed anchor stamped from authoritative published RT02 elapsed_campaign_minutes; null while idle.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "required_minutes": {
+      "description": "Official minimum whole-minute requirement. Short Rest = 60; Long Rest = 480 plus 60 per recorded interruption. Null while idle.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "completed_at_elapsed_minutes": {
+      "description": "Engine-derived absolute completion anchor; null unless status is completed.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "last_long_rest_completed_at_elapsed_minutes": {
+      "description": "Personal last-successful-Long-Rest completion anchor, preserved across later attempts so the official 16-hour next-start rule is deterministic. Null when the character has never completed a Long Rest in tracked time.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "interruptions": {
+      "description": "Bounded ordered interruptions of the current/long attempt. Each records the rules cause and the engine-derived elapsed anchor. A Short Rest holds none (an interruption ends it as `interrupted`).",
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "required": ["cause", "at_elapsed_minutes"],
+        "additionalProperties": false,
+        "properties": {
+          "cause": {
+            "enum": ["initiative", "spell", "damage", "exertion"]
+          },
+          "at_elapsed_minutes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "short_benefit_granted": {
+      "description": "True once Short Rest benefits have been granted to the active Long Rest after a rules-valid interruption at least 1 hour in. Prevents duplicate recovery.",
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "idle" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "rest_kind": { "const": null },
+          "started_at_elapsed_minutes": { "const": null },
+          "required_minutes": { "const": null },
+          "completed_at_elapsed_minutes": { "const": null },
+          "interruptions": { "maxItems": 0 },
+          "short_benefit_granted": { "const": false }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "active" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "rest_kind": { "enum": ["short", "long"] },
+          "completed_at_elapsed_minutes": { "const": null }
+        },
+        "required": ["started_at_elapsed_minutes", "required_minutes"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "completed" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "rest_kind": { "enum": ["short", "long"] }
+        },
+        "required": ["started_at_elapsed_minutes", "required_minutes", "completed_at_elapsed_minutes"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "interrupted" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "rest_kind": { "const": "short" },
+          "completed_at_elapsed_minutes": { "const": null },
+          "short_benefit_granted": { "const": false }
+        },
+        "required": ["started_at_elapsed_minutes", "required_minutes"]
+      }
+    }
+  ]
+}

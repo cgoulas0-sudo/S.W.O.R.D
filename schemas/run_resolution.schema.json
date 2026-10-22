@@ -1,0 +1,266 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/run_resolution.schema.json",
+  "title": "RHC Entity V2 Off-screen Run Resolution Proposal",
+  "description": "Non-canonical EV2-09A proposal produced from one off-screen Run. It records deterministic outcome classification and bounded proposed consequences without mutating canonical owners.",
+  "type": "object",
+  "required": [
+    "resolution_id",
+    "run_id",
+    "scenario_id",
+    "primary_hook_id",
+    "campaign_anchor",
+    "objective_context",
+    "primary_roll",
+    "outcome_band",
+    "proposed_consequences"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "resolution_id": {
+      "type": "string",
+      "pattern": "^RP[0-9]{2,}(?![\\s\\S])"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^R[0-9]{2,}(?![\\s\\S])"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^S[0-9]{2,}(?![\\s\\S])"
+    },
+    "primary_hook_id": {
+      "type": "string",
+      "pattern": "^H[0-9]{2,}(?![\\s\\S])"
+    },
+    "campaign_anchor": {
+      "type": "object",
+      "required": [
+        "base_commit",
+        "campaign_time"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "base_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}(?![\\s\\S])"
+        },
+        "campaign_time": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "objective_context": {
+      "type": "object",
+      "required": [
+        "scenario_objective",
+        "hook_objective"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "scenario_objective": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "hook_objective": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "primary_roll": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20
+    },
+    "outcome_band": {
+      "type": "string",
+      "enum": [
+        "critical_trigger",
+        "bad",
+        "below_average",
+        "normal",
+        "above_average",
+        "exceptional"
+      ]
+    },
+    "severity_roll": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6
+    },
+    "severity_band": {
+      "type": "string",
+      "enum": [
+        "minor",
+        "moderate",
+        "serious",
+        "catastrophic"
+      ]
+    },
+    "proposed_consequences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "consequence_id",
+          "scope",
+          "kind",
+          "summary",
+          "related_entity_ids",
+          "location_ids"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "consequence_id": {
+            "type": "string",
+            "pattern": "^PC[0-9]{2,}(?![\\s\\S])"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "run_objective",
+              "participant",
+              "location",
+              "related_entity"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "objective_result",
+              "gain",
+              "loss",
+              "injury",
+              "capture",
+              "discovery",
+              "setback",
+              "world_change"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "related_entity_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(character|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+            }
+          },
+          "location_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^location:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "scope": {
+                  "const": "participant"
+                }
+              },
+              "required": [
+                "scope"
+              ]
+            },
+            "then": {
+              "properties": {
+                "related_entity_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scope": {
+                  "const": "location"
+                }
+              },
+              "required": [
+                "scope"
+              ]
+            },
+            "then": {
+              "properties": {
+                "location_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "scope": {
+                  "const": "related_entity"
+                }
+              },
+              "required": [
+                "scope"
+              ]
+            },
+            "then": {
+              "properties": {
+                "related_entity_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "primary_roll": {
+            "const": 1
+          }
+        },
+        "required": [
+          "primary_roll"
+        ]
+      },
+      "then": {
+        "required": [
+          "severity_roll",
+          "severity_band"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "severity_roll"
+              ]
+            },
+            {
+              "required": [
+                "severity_band"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

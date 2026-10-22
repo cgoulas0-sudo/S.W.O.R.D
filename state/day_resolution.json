@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "system": "Rolling High Club Day Resolution",
+  "purpose": "Current-day RNG and mechanical resolutions that must survive a handoff. This file is optional/inert until a tracked mechanic is actually used.",
+  "status": "uninitialized",
+  "current_day": null,
+  "rng_rolls": [],
+  "mechanical_resolutions": [],
+  "persistent_effects_applied": [],
+  "notes": []
+}

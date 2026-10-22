@@ -1,0 +1,88 @@
+name: Entity V2 identity validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Validate fixture entity records against schemas/entity.schema.json
+        run: python scripts/validate_entities.py tests/fixtures/entities/valid
+      - name: Validate real RHC item canary identity against schemas/entity.schema.json
+        run: python scripts/validate_entities.py entities/items
+      - name: Validate fixture state records against schemas/state.schema.json
+        run: python scripts/validate_entities.py --schema schemas/state.schema.json tests/fixtures/state/valid
+      - name: Validate fixture knowledge records against schemas/knowledge.schema.json
+        run: python scripts/validate_entities.py --schema schemas/knowledge.schema.json tests/fixtures/knowledge/valid
+      - name: Validate fixture inventory records against schemas/inventory.schema.json
+        run: python scripts/validate_entities.py --schema schemas/inventory.schema.json tests/fixtures/inventory/valid
+      - name: Run Entity V2 identity test suite
+        run: pytest tests/test_entity_validation.py -v
+      - name: Run Entity V2 state/knowledge/inventory foundation test suite
+        run: pytest tests/test_state_knowledge_inventory_validation.py -v
+      - name: Validate synthetic item custody records against schemas/item_custody.schema.json
+        run: python scripts/validate_entities.py --schema schemas/item_custody.schema.json tests/fixtures/item_custody/valid
+      - name: Run EV2-11 item custody validation test suite
+        run: pytest tests/test_item_custody_validation.py -v
+      - name: Validate fixture relationship kind records against schemas/relationship_kind.schema.json
+        run: python scripts/validate_relationship_kinds.py tests/fixtures/relationship_kinds/valid
+      - name: Run Entity V2 relationship kind registry test suite
+        run: pytest tests/test_relationship_kind_validation.py -v
+      - name: Validate fixture relationship instance records against schemas/relationship_instance.schema.json
+        run: python scripts/validate_relationship_instances.py --kinds tests/fixtures/relationship_kinds/valid tests/fixtures/relationship_instances/valid
+      - name: Run Entity V2 relationship instance foundation test suite
+        run: pytest tests/test_relationship_instance_validation.py -v
+      - name: Validate synthetic Hook records against schemas/hook.schema.json
+        run: python scripts/validate_hooks.py tests/fixtures/hooks/valid
+      - name: Run Entity V2 Hook foundation test suite
+        run: pytest tests/test_hook_validation.py -v
+      - name: Validate synthetic Scenario + Encounter records
+        run: python scripts/validate_scenarios_encounters.py --hooks tests/fixtures/hooks/valid --scenarios tests/fixtures/scenarios/valid --encounters tests/fixtures/encounters/valid
+      - name: Run Entity V2 Scenario + Encounter foundation test suite
+        run: pytest tests/test_scenario_encounter_validation.py -v
+      - name: Validate synthetic Run records
+        run: python scripts/validate_runs.py --scenarios tests/fixtures/scenarios/valid --encounters tests/fixtures/encounters/valid tests/fixtures/runs/valid
+      - name: Run Entity V2 Run foundation test suite
+        run: pytest tests/test_run_validation.py tests/test_run_anchor_git_validation.py -v
+      - name: Validate synthetic off-screen Run resolution proposals
+        run: python scripts/validate_run_resolutions.py --hooks tests/fixtures/hooks/valid --scenarios tests/fixtures/scenarios/valid --runs tests/fixtures/runs/valid tests/fixtures/run_resolutions/valid
+      - name: Run EV2-09A off-screen resolution test suite
+        run: pytest tests/test_offscreen_run_resolution.py tests/test_offscreen_anchor_context.py -v
+      - name: Run EV2-12 first real RHC item canary test suite
+        run: pytest tests/ev212/test_first_real_item_canary.py -v
+      - name: Validate repository reality identity registry
+        run: python scripts/validate_realities.py realities/registry
+      - name: Validate synthetic reality identity fixtures
+        run: python scripts/validate_realities.py tests/fixtures/realities/valid
+      - name: Run POST-EV2-4B reality inheritance test suite
+        run: pytest tests/test_reality_inheritance.py -v
+      - name: Run POST-EV2-14 disposable brainstorm lab test suite
+        run: pytest tests/post_ev2_14/test_brainstorm_lab.py -v
+      - name: Run pure-Python resolver / intake / provenance / write-boundary suites
+        run: >-
+          pytest
+          tests/test_dice_resolver.py
+          tests/test_context_access.py
+          tests/test_intake_candidate_material_validation.py
+          tests/test_intake_candidate_validation.py
+          tests/test_intake_collision_validation.py
+          tests/test_intake_decision_validation.py
+          tests/test_intake_promotion_validation.py
+          tests/test_provenance_validation.py
+          tests/test_write_boundary.py
+          -v
+      - name: Validate committed canonical root campaign JSON (read-only)
+        run: python scripts/validate_canonical_root_json.py
+      - name: Run canonical root JSON validation test suite
+        run: pytest tests/test_canonical_root_json.py -v

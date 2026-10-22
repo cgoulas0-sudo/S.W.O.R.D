@@ -1,0 +1,6 @@
+{
+  "entity_id": "party:test-band",
+  "entity_type": "party",
+  "display_name": "Test Band (fixture)",
+  "references": ["character:test-hero", "character:test-shopkeep", "location:test-tavern"]
+}

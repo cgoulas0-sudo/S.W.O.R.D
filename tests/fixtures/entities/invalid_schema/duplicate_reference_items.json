@@ -1,0 +1,6 @@
+{
+  "entity_id": "character:test-duplicate-refs",
+  "entity_type": "character",
+  "display_name": "Duplicate Reference Items (fixture)",
+  "references": ["character:test-hero", "character:test-hero"]
+}

@@ -1,0 +1,321 @@
+name: POST-EV2-Z clean campaign canvas
+
+# Mission-local proof for POST-EV2-Z / POST-EV2-Z.1 / POST-EV2-Z4. This
+# workflow triggers on the surfaces declared in the branch-bound JOHNNY machine
+# Surface Budget: the five POST-EV2-Z files, the ENGINE_VERSION source (so a
+# version-only bump still runs the proof that validates the version source and
+# receipt), the authorized requirements.txt PyYAML line this proof consumes,
+# the Z3 reality surfaces, and the POST-EV2-Z4 path-filter patterns that admit
+# every COPY surface the copied-executable portability guard scans (a change to
+# any scanned COPY surface schedules this proof). It does not modify or replace
+# any existing global workflow or trigger policy.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".gitignore"
+      - ".githooks/**"
+      - ".github/**"
+      - "characters/**"
+      - "config/**"
+      - "knowledge/**"
+      - "locations/**"
+      - "npc/**"
+      - "quests/**"
+      - "realities/**"
+      - "requirements.txt"
+      - "schemas/**"
+      - "scripts/**"
+      - "state/**"
+      - "supabase/**"
+      - "tests/**"
+      - "bootstrap/CLEAN_CAMPAIGN_EXPORT_POLICY.json"
+      - "scripts/export_clean_campaign.py"
+      - "docs/POST-EV2-Z-CLEAN-CAMPAIGN-EXPORT.md"
+      - "tests/post_ev2_z/test_clean_campaign_export.py"
+      - ".github/workflows/post-ev2-z-clean-canvas.yml"
+      - "ENGINE_VERSION"
+      - "schemas/reality.schema.json"
+      - "scripts/validate_realities.py"
+      - "tests/test_reality_inheritance.py"
+      - "realities/README.md"
+      - "docs/POST-EV2-4B-REALITY-INHERITANCE.md"
+  push:
+    branches: [main]
+    paths:
+      - ".gitignore"
+      - ".githooks/**"
+      - ".github/**"
+      - "characters/**"
+      - "config/**"
+      - "knowledge/**"
+      - "locations/**"
+      - "npc/**"
+      - "quests/**"
+      - "realities/**"
+      - "requirements.txt"
+      - "schemas/**"
+      - "scripts/**"
+      - "state/**"
+      - "supabase/**"
+      - "tests/**"
+      - "bootstrap/CLEAN_CAMPAIGN_EXPORT_POLICY.json"
+      - "scripts/export_clean_campaign.py"
+      - "docs/POST-EV2-Z-CLEAN-CAMPAIGN-EXPORT.md"
+      - "tests/post_ev2_z/test_clean_campaign_export.py"
+      - ".github/workflows/post-ev2-z-clean-canvas.yml"
+      - "ENGINE_VERSION"
+      - "schemas/reality.schema.json"
+      - "scripts/validate_realities.py"
+      - "tests/test_reality_inheritance.py"
+      - "realities/README.md"
+      - "docs/POST-EV2-4B-REALITY-INHERITANCE.md"
+
+env:
+  RHC_RT01A_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT01B_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_RT02_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV213420_PG_DSN: postgresql://postgres:rhc@localhost:55432/rhc
+  RHC_EV213420_PG17_DSN: postgresql://postgres:rhc@localhost:55433/rhc
+
+jobs:
+  exporter:
+    name: Clean campaign exporter proof
+    runs-on: ubuntu-latest
+    steps:
+      # Exact immutable PR head, never the synthetic merge commit; the proof
+      # below binds itself to this exact SHA.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Bind the proof to the exact checked-out head
+        env:
+          EVENT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EVENT_HEAD_SHA"
+          echo "GITHUB_EVENT_HEAD_SHA=$EVENT_HEAD_SHA" >> "$GITHUB_ENV"
+      - name: Prove the deterministic exporter
+        run: pytest tests/post_ev2_z -v
+      - name: Whitespace check
+        run: git diff --check
+
+  clean-canvas:
+    name: Clean canvas representative proofs
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      postgres17:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: rhc
+          POSTGRES_DB: rhc
+        ports:
+          - 55433:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d rhc"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Export the clean campaign canvas from exact tracked HEAD
+        env:
+          # ``runner`` is unavailable at ``jobs.<job_id>.env`` (workflow planning
+          # fails before any job runs), so the canvas path is derived here, at
+          # step level, where GitHub makes the ``runner`` context available.
+          CANVAS: ${{ runner.temp }}/clean-campaign-canvas
+        run: |
+          set -euo pipefail
+          python scripts/export_clean_campaign.py \
+            --repo-root . --ref HEAD --output "$CANVAS"
+          test ! -e "$CANVAS/.git"
+          test ! -e "$CANVAS/bootstrap"
+          test -e "$CANVAS/AGENT_HANDOFF.md"
+          test -e "$CANVAS/docs/DM_CONTROL_ROOM.md"
+          git -C "$CANVAS" init -q
+          git -C "$CANVAS" add -A
+          git -C "$CANVAS" -c user.email=z@example.invalid \
+            -c user.name=POST-EV2-Z commit -q -m "clean canvas"
+      - name: Lint the two emitted workflows with pinned actionlint
+        # Layer A of the Z6 product-acceptance architecture: actionlint owns
+        # GitHub Actions workflow syntax, expression and schema checking of the
+        # ACTUAL emitted workflow bytes. It is an immutably pinned release whose
+        # archive SHA-256 is verified before extraction, it runs from OUTSIDE
+        # the emitted product (the binary and the negative fixture live under
+        # ``$RUNNER_TEMP``, never in the canvas, so the exported tree/receipt is
+        # not polluted), and it lints ONLY the two workflow files the policy
+        # emits. Shellcheck/pyflakes are disabled so this layer stays scoped to
+        # Actions syntax rather than an unrelated shell-linter refactor.
+        # actionlint does NOT resolve local action directories or static
+        # working-directory path kinds; the exporter remains the authority for
+        # those (documented division of labor).
+        env:
+          CANVAS: ${{ runner.temp }}/clean-campaign-canvas
+        run: |
+          set -euo pipefail
+          ACTIONLINT_VERSION=1.7.12
+          ACTIONLINT_SHA256=8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+          ACTIONLINT_DIR="$RUNNER_TEMP/actionlint-${ACTIONLINT_VERSION}"
+          mkdir -p "$ACTIONLINT_DIR"
+          curl -fsSLo "$ACTIONLINT_DIR/actionlint.tar.gz" \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  $ACTIONLINT_DIR/actionlint.tar.gz" | sha256sum -c -
+          tar -xzf "$ACTIONLINT_DIR/actionlint.tar.gz" -C "$ACTIONLINT_DIR" actionlint
+          ACTIONLINT="$ACTIONLINT_DIR/actionlint"
+          # Non-vacuity: a deliberately invalid workflow must make actionlint
+          # fail. If it is accepted, the lint gate is vacuous and the job fails.
+          mkdir -p "$RUNNER_TEMP/actionlint-negative"
+          cat > "$RUNNER_TEMP/actionlint-negative/invalid.yml" <<'YAML'
+          name: actionlint negative fixture
+          on: push
+          jobs:
+            broken:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                  run: echo "a step cannot have both uses and run"
+          YAML
+          if "$ACTIONLINT" -shellcheck= -pyflakes= \
+            "$RUNNER_TEMP/actionlint-negative/invalid.yml"; then
+            echo "actionlint accepted an invalid workflow; the lint gate is vacuous" >&2
+            exit 1
+          fi
+          # Lint ONLY the actual emitted product workflows.
+          "$ACTIONLINT" -shellcheck= -pyflakes= \
+            "$CANVAS/.github/workflows/rt01-runtime.yml" \
+            "$CANVAS/.github/workflows/hard-write-boundary.yml"
+      - name: Prove representative reusable proofs inside the exported canvas
+        # ``runner`` is available at ``jobs.<job_id>.steps.working-directory``;
+        # the canvas path is derived here directly rather than via job-level env.
+        working-directory: ${{ runner.temp }}/clean-campaign-canvas
+        run: |
+          set -euo pipefail
+          python scripts/validate_canonical_root_json.py
+          pytest \
+            tests/rt01a \
+            tests/rt01b \
+            tests/rt02 \
+            tests/ev213420 \
+            tests/test_entity_validation.py \
+            tests/test_canonical_root_json.py \
+            tests/post_ev2_14/test_brainstorm_lab.py \
+            -v
+      - name: Execute every exported RT01 shard command inside the exported canvas
+        # PROOF F: the exported product's own shipped CI is the proof surface.
+        # The shipped RT01 workflow's shard commands are read from the exported
+        # workflow (the policy-generated portability adaptation) and executed
+        # verbatim inside this fresh independent canvas with the PostgreSQL
+        # services those commands require. A non-zero exit or a shard that
+        # proves nothing (zero tests passed -- DB-gated proofs silently
+        # skipping) fails the job closed.
+        working-directory: ${{ runner.temp }}/clean-campaign-canvas
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import subprocess
+          import sys
+          import yaml
+
+          canvas = os.getcwd()
+          workflow = yaml.safe_load(
+              open(".github/workflows/rt01-runtime.yml", encoding="utf-8")
+          )
+          env = dict(os.environ)
+          for key, value in (workflow.get("env") or {}).items():
+              env[str(key)] = str(value)
+          commands = []
+          for job in (workflow.get("jobs") or {}).values():
+              for step in (job or {}).get("steps") or []:
+                  if isinstance(step, dict) and isinstance(step.get("run"), str):
+                      command = step["run"].strip()
+                      if command.startswith("pytest"):
+                          commands.append(command)
+          if not commands:
+              raise SystemExit("no exported RT01 shard commands found")
+          executed = 0
+          for command in commands:
+              proc = subprocess.run(
+                  command, shell=True, cwd=canvas, env=env,
+                  capture_output=True, text=True,
+              )
+              sys.stdout.write(proc.stdout[-4000:])
+              sys.stderr.write(proc.stderr[-4000:])
+              if proc.returncode != 0:
+                  raise SystemExit(
+                      "exported shard command failed "
+                      "({}): {}".format(proc.returncode, command)
+                  )
+              if "passed" not in proc.stdout:
+                  raise SystemExit(
+                      "exported shard command proved nothing "
+                      "(no tests passed): {}".format(command)
+                  )
+              executed += 1
+          print(
+              "EXECUTED {} EXPORTED RT01 SHARD COMMANDS "
+              "INSIDE THE EXPORTED CANVAS".format(executed)
+          )
+          PY
+
+  portable-suite:
+    name: Full portable suite in a fresh independent repository
+    runs-on: ubuntu-latest
+    steps:
+      # Exact immutable PR head, never the synthetic merge commit.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Export exact HEAD and initialize a fresh independent Git repository
+        # The canvas is initialized on ``main`` (the reusable Git-anchor proofs
+        # resolve their canonical branch from ``refs/heads/main``) and has no
+        # RHC ancestry, remotes, or history by construction.
+        env:
+          CANVAS: ${{ runner.temp }}/portable-campaign-canvas
+        run: |
+          set -euo pipefail
+          python scripts/export_clean_campaign.py \
+            --repo-root . --ref HEAD --output "$CANVAS"
+          test ! -e "$CANVAS/.git"
+          test ! -e "$CANVAS/bootstrap"
+          git -C "$CANVAS" init -q -b main
+          git -C "$CANVAS" add -A
+          git -C "$CANVAS" -c user.email=z@example.invalid \
+            -c user.name=POST-EV2-Z commit -q -m "clean canvas"
+          test -z "$(git -C "$CANVAS" remote)"
+      - name: Run the full portable exported test suite inside the fresh repository
+        # No database service is provided here, matching the downstream PORT-01
+        # portable environment: reusable engine behavior runs, DB-gated proofs
+        # skip, and no portable test may depend on RHC ancestry.
+        working-directory: ${{ runner.temp }}/portable-campaign-canvas
+        run: pytest tests -q

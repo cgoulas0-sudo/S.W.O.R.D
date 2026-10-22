@@ -1,0 +1,7 @@
+{
+  "relationship_id": "bad-end-time",
+  "source_id": "character:test-a",
+  "kind": "serves",
+  "target_id": "faction:test-b",
+  "ended_at": "   "
+}

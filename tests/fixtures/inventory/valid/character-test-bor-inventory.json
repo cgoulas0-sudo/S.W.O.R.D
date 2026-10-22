@@ -1,0 +1,17 @@
+{
+  "entity_id": "character:test-bor-inventory",
+  "status": "known",
+  "entries": [
+    {
+      "name": "+3 Maul",
+      "description": "A fictional magic maul used only as fixture data.",
+      "quantity": 1
+    },
+    {
+      "name": "Draft horse",
+      "description": "A fictional owned mount used only as fixture data (an owned asset held as an ordinary possession, with no category taxonomy).",
+      "quantity": 2
+    }
+  ],
+  "currency": { "cp": 14, "gp": 250, "pp": 3 }
+}

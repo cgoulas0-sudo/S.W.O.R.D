@@ -1,0 +1,9 @@
+{
+  "encounter_id": "E01",
+  "scenario_id": "S02",
+  "title": "Opening parley",
+  "scene_type": "social",
+  "setup": "Representatives meet under a fragile truce.",
+  "immediate_objective": "Establish what each side wants.",
+  "related_entity_ids": ["faction:test-faction"]
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "commands",
+  "inverse_of": "Obeys!!",
+  "notes": "Fixture (invalid): inverse_of must match the kind slug pattern."
+}

@@ -1,0 +1,32 @@
+{
+  "entity_id": "character:test-bor-knowledge",
+  "status": "known",
+  "entries": [
+    {
+      "topic": "ritual_inscription_truth",
+      "epistemic_status": "confirmed",
+      "fact_id": "F001",
+      "note": "Learned directly from the ritual inscription.",
+      "source": "session_canon"
+    },
+    {
+      "topic": "hidden_wizards_location",
+      "epistemic_status": "suspicion",
+      "fact_id": "F002",
+      "source": "overheard_rumor"
+    },
+    {
+      "topic": "witnessed_formula_acquisition",
+      "epistemic_status": "confirmed",
+      "value": "witnessed",
+      "visibility": "non_meta"
+    },
+    {
+      "topic": "crystal_ball_private_theory",
+      "epistemic_status": "belief",
+      "value": "the crystal ball listens when spoken to",
+      "visibility": "meta",
+      "note": "Bor's private theory; not established world truth."
+    }
+  ]
+}

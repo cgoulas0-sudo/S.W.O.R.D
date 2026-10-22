@@ -1,0 +1,10 @@
+{
+  "hook_id": "H04",
+  "title": "Retired fixture quest",
+  "objective": "Track a quest that can no longer be meaningfully completed.",
+  "status": "retired",
+  "activation_condition": "The actionable lead existed.",
+  "resolution_condition": "The objective would have been completed by reaching the target.",
+  "related_entity_ids": ["creature:test-target"],
+  "retirement_reason": "The opportunity permanently expired before completion."
+}

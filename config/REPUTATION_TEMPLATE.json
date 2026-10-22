@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "system": "Reputation Template (Business default public/institutional standing)",
+  "status": "template_inert_until_explicitly_instantiated",
+  "score_bounds": {
+    "min": 0,
+    "max": 100
+  },
+  "consequence_scale": {
+    "minor": 1,
+    "meaningful": 2,
+    "major": 5,
+    "city_defining": 10
+  },
+  "high_standing": {
+    "threshold": 80,
+    "positive_gain_multiplier": 0.5,
+    "rounding": "floor"
+  },
+  "tiers": [
+    { "name": "wary", "min": 0, "max": 29 },
+    { "name": "neutral", "min": 30, "max": 59 },
+    { "name": "recognized", "min": 60, "max": 79 },
+    { "name": "institutional", "min": 80, "max": 94 },
+    { "name": "key_civic_link", "min": 95, "max": 99 },
+    { "name": "legendary", "min": 100, "max": 100 }
+  ],
+  "association_rule": "A person associated with one or more Businesses uses the contextually relevant Business Reputation; unrelated scores are never averaged.",
+  "rules": [
+    "This template creates no Business, Reputation score, economy, Incorporation, event, funds, fleet, or campaign-specific state in RHC canon.",
+    "Create a separately named configuration file before activating a Reputation mechanic for a specific Business.",
+    "Reputation is a default public/institutional standing input only; it never becomes NPC obedience, relationships, knowledge, invitations, or spawned NPCs.",
+    "Positive gains above the high_standing.threshold use positive_gain_multiplier with floor rounding; negative changes are never reduced by that asymmetry.",
+    "Classification follows established scope/consequence, never a desired final score.",
+    "A later owner persists the returned result; this primitive performs no persistence, Begin Day integration, RNG, or Business economy resolution."
+  ]
+}

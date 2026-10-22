@@ -1,0 +1,4 @@
+{
+  "kind": "guards",
+  "notes": "Fixture (invalid_duplicate): second record reusing the same kind."
+}

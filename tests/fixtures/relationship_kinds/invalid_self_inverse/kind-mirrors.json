@@ -1,0 +1,5 @@
+{
+  "kind": "mirrors",
+  "inverse_of": "mirrors",
+  "notes": "Fixture (invalid_self_inverse): inverse_of must not name its own kind; use symmetric: true instead."
+}

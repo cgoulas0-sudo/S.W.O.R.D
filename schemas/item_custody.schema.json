@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/item_custody.schema.json",
+  "title": "RHC Entity V2 Item Custody",
+  "description": "EV2-11 unique-item custody record for an already-declared persistent `item:` identity. Current ownership and physical possession are two independent nullable facts: `owner_entity_id` is who the item belongs to and `holder_entity_id` is who currently carries it. Both are required fields that accept either JSON null or a `character:` / `party:` identity; `character:` covers PCs, NPCs and villains because those are role/classification differences rather than separate identity types, and `party:` supports party-owned/party-held custody. There is deliberately no stored status field: the human labels are derived only. `held` means holder is non-null (whether or not owner is the same actor); `owned` means owner is non-null and holder is null; `treasure` means both are null. Legitimate combinations include owned-and-held (owner=holder), stolen/loaned (owner and holder differ), owned-but-carried-by-none (holder null), carried-without-established-ownership (owner null), and treasure (both null). This record is the authoritative unique-item custody truth and is not mirrored inside ordinary `inventory`; it is not a second save engine, not an item-identity registry, and it does not admit or mint new `item:` identities (that is deferred to EV2-12). It also does not model equipped/attuned state, encumbrance, containers, ammunition, pricing/economy, crafting/durability, provenance, location/faction/creature custody, or alternate save-slot/reality architecture.",
+  "type": "object",
+  "required": ["item_id", "owner_entity_id", "holder_entity_id"],
+  "additionalProperties": false,
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "pattern": "^item:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "owner_entity_id": {
+      "type": ["string", "null"],
+      "pattern": "^(character|party):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "holder_entity_id": {
+      "type": ["string", "null"],
+      "pattern": "^(character|party):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    }
+  }
+}

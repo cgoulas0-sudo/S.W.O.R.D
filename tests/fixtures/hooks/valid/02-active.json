@@ -1,0 +1,9 @@
+{
+  "hook_id": "H02",
+  "title": "Active fixture quest",
+  "objective": "Track a quest currently in motion.",
+  "status": "active",
+  "activation_condition": "The actionable lead was accepted.",
+  "resolution_condition": "The objective is conclusively resolved in play.",
+  "related_entity_ids": ["character:test-hero", "faction:test-faction"]
+}

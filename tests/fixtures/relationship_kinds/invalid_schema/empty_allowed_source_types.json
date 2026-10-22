@@ -1,0 +1,5 @@
+{
+  "kind": "guards",
+  "allowed_source_types": [],
+  "notes": "Fixture (invalid): allowed_source_types must not be empty."
+}

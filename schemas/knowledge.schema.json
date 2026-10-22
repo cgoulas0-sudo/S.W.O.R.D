@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/knowledge.schema.json",
+  "title": "RHC Entity V2 Knowledge (EV2-14 owner-local knowledge)",
+  "description": "Owner-local knowledge record (EV2-14 evolution of the EV2-03 foundation). A record belongs to exactly one owning entity and records whether that entity's knowledge is tracked at all (known/unknown/not_applicable). When known, it carries a non-empty list of entries; every entry holds exactly one content mode: a reusable fact reference (`fact_id` into knowledge/facts.json, whose own visibility is inherited from the referenced fact at read time and never copied into the knower record; knower-local annotations such as topic/note/source are internal metadata and are not part of a player-facing fact projection) or a concise local scalar assertion (`value`, which carries its own `visibility` because the assertion itself is the underlying information). Each entry declares an epistemic_status of confirmed/belief/suspicion for this knower only; belief/suspicion never promotes into world truth and the existence of a reusable fact never grants knowledge. Entry values remain plain scalars so no structured directive can be stored as data, and no per-entry knowledge identity, runtime mutation, propagation or secrets machinery is modelled here.",
+  "type": "object",
+  "required": ["entity_id", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "status": {
+      "enum": ["known", "unknown", "not_applicable"]
+    },
+    "entries": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["topic", "epistemic_status"],
+        "additionalProperties": false,
+        "properties": {
+          "topic": {
+            "description": "Knower-local routing/authoring label. For fact-reference entries this is internal metadata and MUST NOT be exposed in a player-facing projection merely because the referenced fact is non_meta.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "epistemic_status": {
+            "enum": ["confirmed", "belief", "suspicion"]
+          },
+          "fact_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "value": {
+            "type": ["string", "number", "boolean"]
+          },
+          "visibility": {
+            "enum": ["meta", "non_meta"]
+          },
+          "note": {
+            "description": "Optional knower-local annotation. For fact-reference entries this is DM/internal-only by default and MUST NOT be exposed by the player-facing fact projection.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "source": {
+            "description": "Optional knower-local provenance annotation. For fact-reference entries this is DM/internal-only by default and MUST NOT be exposed by the player-facing fact projection.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "allOf": [
+          {
+            "if": { "required": ["fact_id"] },
+            "then": { "properties": { "value": false, "visibility": false } }
+          },
+          {
+            "if": { "not": { "required": ["fact_id"] } },
+            "then": { "required": ["value", "visibility"] }
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "known" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["entries"],
+        "properties": { "entries": { "minItems": 1 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "enum": ["unknown", "not_applicable"] } },
+        "required": ["status"]
+      },
+      "then": { "properties": { "entries": false } }
+    }
+  ]
+}

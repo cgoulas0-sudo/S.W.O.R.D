@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/relationship_instance.schema.json",
+  "title": "RHC Entity V2 Relationship Instance",
+  "description": "Minimal lifecycle-bearing relationship record between two Entity V2 entities. Current activity is derived from the absence of ended_at; history is preserved by ending records rather than deleting them. This Patch 2 contract is intentionally small but versionable: future relationship metadata may be added by later schema evolution without replacing the core relationship model.",
+  "type": "object",
+  "required": [
+    "relationship_id",
+    "source_id",
+    "kind",
+    "target_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "relationship_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "started_at": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "ended_at": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

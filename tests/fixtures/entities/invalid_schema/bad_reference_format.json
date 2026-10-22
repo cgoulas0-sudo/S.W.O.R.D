@@ -1,0 +1,6 @@
+{
+  "entity_id": "character:test-bad-reference",
+  "entity_type": "character",
+  "display_name": "Bad Reference Format (fixture)",
+  "references": ["not-a-valid-entity-id"]
+}

@@ -1,0 +1,9 @@
+{
+  "entity_id": "character:test-bor-state",
+  "status": "known",
+  "entries": [
+    { "attribute": "current_location", "status": "known", "value": "Eagle's Nest" },
+    { "attribute": "in_combat", "status": "unknown" },
+    { "attribute": "eye_color", "status": "not_applicable" }
+  ]
+}

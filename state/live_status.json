@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "system": "Rolling High Club Live Status",
+  "purpose": "Generic mutable campaign resources, assets, persistent effects and obligations when repository tracking is useful.",
+  "status": "uninitialized",
+  "current_day": null,
+  "party_state": {},
+  "campaign_resources": {},
+  "organizations": {},
+  "businesses": {},
+  "assets": {},
+  "persistent_effects": [],
+  "financial_obligations": {},
+  "last_update_source": null
+}

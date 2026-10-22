@@ -1,0 +1,5 @@
+{
+  "kind": "allied_with",
+  "symmetric": true,
+  "notes": "Fixture kind (EV2-05 Patch 1): symmetric relation, its own inverse, no separate inverse_of."
+}

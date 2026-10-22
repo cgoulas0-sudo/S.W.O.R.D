@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "system": "Rolling High Club DM Meta",
+  "purpose": "Committed hidden runtime truth and durable DM-only handoff that already matters to continuity but is not player-known. Uncommitted future ideas belong in planned/ or brainstorm/ instead.",
+  "visibility": "meta",
+  "status": "uninitialized",
+  "current_day": null,
+  "committed_hidden_truths": [],
+  "durable_dm_plans": [],
+  "ghost_seeds": [],
+  "unresolved_reveal_conditions": [],
+  "run_claims": {},
+  "last_update_source": null
+}

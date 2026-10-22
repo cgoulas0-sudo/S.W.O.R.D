@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/relationship_kind.schema.json",
+  "title": "RHC Entity V2 Relationship Kind",
+  "description": "A controlled-vocabulary entry describing one relationship label (e.g. 'serves', 'parent_of', 'allied_with') a relationship instance may use, plus structural metadata about that label: whether it is symmetric, its inverse (for asymmetric pairs), and which entity types may occupy either end. A kind is data, not an Entity V2 entity_type: it has no entity_id, no independent lifecycle, and no display variety. Lifecycle-bearing source/target records are defined separately by relationship_instance.schema.json.",
+  "type": "object",
+  "required": [
+    "kind"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "symmetric": {
+      "type": "boolean"
+    },
+    "inverse_of": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "allowed_source_types": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "character",
+          "location",
+          "faction",
+          "party",
+          "creature",
+          "item",
+          "ability",
+          "status_effect"
+        ]
+      }
+    },
+    "allowed_target_types": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "character",
+          "location",
+          "faction",
+          "party",
+          "creature",
+          "item",
+          "ability",
+          "status_effect"
+        ]
+      }
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "symmetric": {
+            "const": true
+          }
+        },
+        "required": [
+          "symmetric"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "inverse_of"
+          ]
+        }
+      }
+    }
+  ]
+}

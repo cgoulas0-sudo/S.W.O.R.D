@@ -1,0 +1,7 @@
+{
+  "relationship_id": "fixture-rel-parent-current",
+  "source_id": "character:test-parent",
+  "kind": "parent_of",
+  "target_id": "character:test-child",
+  "started_at": "day-11"
+}

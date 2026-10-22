@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/entity.schema.json",
+  "title": "RHC Entity V2 Identity",
+  "description": "Minimal identity record for an Entity V2 entity: stable typed ID, type, display name, optional classification subtype, and optional references to other entities by ID. entity_type is the permanent identity type; subtype is an optional, non-identity classification label (e.g. a mutable role such as 'npc' or 'villain', or an ability/status_effect classification such as 'spell' or 'curse') and must never be baked into entity_id or entity_type. 'ability' is a persistent definition of something an entity can do or inherently has; 'status_effect' is a persistent definition of something that can be applied to an entity. Both are definitions only: activation semantics, action-economy cost, duration, stacking, and any runtime application of a status_effect to a specific target are out of scope here. Optional provenance (HB-01) is logistics-level origin classification of this authored record; it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, is never inferred, and absence on legacy records is treated as unclassified/unknown. Does not describe owner state, knowledge, inventory, relationships, or any other subsystem.",
+  "type": "object",
+  "required": ["entity_id", "entity_type", "display_name"],
+  "additionalProperties": false,
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "entity_type": {
+      "enum": ["character", "location", "faction", "party", "creature", "item", "ability", "status_effect"]
+    },
+    "subtype": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "references": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+      }
+    },
+    "provenance": {
+      "description": "Optional shared provenance classification of this authored record (HB-01). Exactly one of official, homebrew, adapted, unknown. Logistics metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, and is never inferred. Absence on legacy records is treated as unclassified/unknown until an explicit later classification event.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification"],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": ["official", "homebrew", "adapted", "unknown"]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "entity_type": { "const": "character" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^character:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "location" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^location:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "faction" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^faction:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "party" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^party:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "creature" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^creature:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "item" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^item:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "ability" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^ability:" } } }
+    },
+    {
+      "if": { "properties": { "entity_type": { "const": "status_effect" } }, "required": ["entity_type"] },
+      "then": { "properties": { "entity_id": { "pattern": "^status_effect:" } } }
+    }
+  ]
+}

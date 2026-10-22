@@ -1,0 +1,7 @@
+{
+  "kind": "mentors",
+  "inverse_of": "mentored_by",
+  "allowed_source_types": ["character"],
+  "allowed_target_types": ["creature"],
+  "notes": "Fixture (invalid_reversed_endpoints): inverse_of naming is mutually consistent with mentored_by, but the endpoint types are not reversed between the pair."
+}

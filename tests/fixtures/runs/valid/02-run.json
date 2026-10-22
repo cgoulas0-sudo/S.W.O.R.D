@@ -1,0 +1,14 @@
+{
+  "run_id": "R02",
+  "execution_mode": "played",
+  "control_state": "parked",
+  "scenario_id": "S02",
+  "occurred_encounter_ids": ["E01"],
+  "participant_entity_ids": ["character:test-returning"],
+  "mutable_owner_entity_ids": [],
+  "location_ids": ["location:test-hall"],
+  "campaign_anchor": {
+    "base_commit": "18bebc813f1af0a8478b97654bd86885e2a5bc25",
+    "campaign_time": "Day 12, night"
+  }
+}

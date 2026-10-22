@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/encounter.schema.json",
+  "title": "RHC Entity V2 Encounter",
+  "description": "Minimal prepared-scene record belonging to exactly one Scenario. It describes a possible social, exploration, combat, or mixed scene and stores no actual-play outcome. Optional provenance classification (HB-01) is logistics-level origin metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, is never inferred, and absence on legacy records is treated as unclassified/unknown.",
+  "type": "object",
+  "required": ["encounter_id", "scenario_id", "title", "scene_type", "setup", "immediate_objective", "related_entity_ids"],
+  "additionalProperties": false,
+  "properties": {
+    "encounter_id": {"type": "string", "pattern": "^E[0-9]{2,}(?![\\s\\S])"},
+    "scenario_id": {"type": "string", "pattern": "^S[0-9]{2,}(?![\\s\\S])"},
+    "title": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "scene_type": {"type": "string", "enum": ["social", "exploration", "combat", "mixed"]},
+    "setup": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "immediate_objective": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "related_entity_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"}
+    },
+    "provenance": {
+      "description": "Optional shared provenance classification of this authored record (HB-01). Exactly one of official, homebrew, adapted, unknown. Logistics metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, and is never inferred. Absence on legacy records is treated as unclassified/unknown until an explicit later classification event.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification"],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": ["official", "homebrew", "adapted", "unknown"]
+        }
+      }
+    }
+  }
+}

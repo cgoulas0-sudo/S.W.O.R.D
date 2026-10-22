@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/hook.schema.json",
+  "title": "RHC Entity V2 Hook",
+  "description": "Minimal quest/story-thread record for meaningful multi-day narrative continuity. A Hook is not an Entity V2 entity and is separate from Scenario, Encounter, Run, canon status, and visibility. Lifecycle is dormant, active, resolved, or retired. Optional provenance classification (HB-01) is logistics-level origin metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, is never inferred, and absence on legacy records is treated as unclassified/unknown.",
+  "type": "object",
+  "required": [
+    "hook_id",
+    "title",
+    "objective",
+    "status",
+    "activation_condition",
+    "resolution_condition",
+    "related_entity_ids"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "hook_id": {
+      "type": "string",
+      "pattern": "^H[0-9]{2,}(?![\\s\\S])"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["dormant", "active", "resolved", "retired"]
+    },
+    "activation_condition": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "resolution_condition": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "related_entity_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(character|location|faction|party|creature|item|ability|status_effect):[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+      }
+    },
+    "retirement_reason": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "provenance": {
+      "description": "Optional shared provenance classification of this authored record (HB-01). Exactly one of official, homebrew, adapted, unknown. Logistics metadata only: it grants no canon authority, reader visibility, character knowledge, or gameplay behavior, and is never inferred. Absence on legacy records is treated as unclassified/unknown until an explicit later classification event.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification"],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": ["official", "homebrew", "adapted", "unknown"]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "retired"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["retirement_reason"]
+      },
+      "else": {
+        "not": {
+          "required": ["retirement_reason"]
+        }
+      }
+    }
+  ]
+}

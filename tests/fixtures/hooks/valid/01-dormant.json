@@ -1,0 +1,9 @@
+{
+  "hook_id": "H01",
+  "title": "Dormant fixture quest",
+  "objective": "Track a prepared quest before activation.",
+  "status": "dormant",
+  "activation_condition": "A player receives the actionable lead.",
+  "resolution_condition": "The objective is conclusively resolved in play.",
+  "related_entity_ids": ["character:test-hero", "location:test-ruin"]
+}

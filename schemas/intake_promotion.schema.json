@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rollinghigh.club/schemas/intake_promotion.schema.json",
+  "title": "RHC Canon Intake Promotion Instruction",
+  "description": "Minimal repository-side promotion instruction for Canon Intake (CI-04): a deterministic plan that binds one CI-01 candidate, its explicit CI-02 human approval, its CI-02.1 material envelope, and its CI-03 collision result into a legal owner route for the later authoritative write. The instruction is intent, not a write: it carries no persistence mechanism, no SQL/Git executor, and no second generation counter, and recording it never promotes anything. Only a classified candidate with an explicit human-approved CI-02 decision and a CI-03 collision result of exactly clear is eligible; eligibility and lineage binding are enforced by scripts/validate_intake_promotions.py against the CI-01/02/02.1/03 sets, not by this schema. The candidate's source/provenance lineage stays attached through candidate_id and is deliberately never duplicated here (additionalProperties false rejects any attempt). resolved_target is the explicit resolved owner/target and must exactly equal the referenced material envelope's proposed_target kind + reference, so a proposed target cannot be silently rerouted. route is the explicit route class (runtime_save | repository_canon); unknown routes fail closed and the route is never inferred from material prose. expected_collision_result records the explicit requirement that the collision result is clear.",
+  "type": "object",
+  "required": ["promotion_id", "candidate_id", "route", "resolved_target", "material_type", "decision_id", "collision_id", "expected_collision_result"],
+  "additionalProperties": false,
+  "properties": {
+    "promotion_id": {
+      "description": "Stable, typed, set-unique promotion identity: the prefix is always promotion: followed by a lowercase slug. A duplicate promotion_id within one validated promotion set fails closed, as does a second distinct instruction for the same candidate.",
+      "type": "string",
+      "pattern": "^promotion:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "candidate_id": {
+      "description": "Referenced CI-01 candidate identity, using the exact intake_candidate.schema.json grammar: candidate: followed by a lowercase slug. The instruction references and never rewrites the candidate; source/provenance truth stays attached through the referenced candidate. Only a classified candidate with a valid explicit human-approved CI-02 decision is promotion-eligible.",
+      "type": "string",
+      "pattern": "^candidate:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "route": {
+      "description": "Explicit resolved route class. runtime_save: mutable operational state that must flow through the existing RT01 Save Gateway and its exact publish/mirror/confirm lifecycle. repository_canon: static/authored/canon owner updates that belong on repository main through the existing repository-authorized workflow. The vocabulary is intentionally closed and minimal; a value outside it fails closed, and the route is never inferred from material prose or target names.",
+      "type": "string",
+      "enum": ["runtime_save", "repository_canon"]
+    },
+    "resolved_target": {
+      "description": "The explicit resolved owner/target the material is proposed to land on (kind + reference, both non-blank). It must exactly equal the referenced CI-02.1 material envelope's proposed_target kind + reference; a mismatch is a silent reroute and fails closed. It is an explicit resolution result, never an AI guess.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference"],
+      "properties": {
+        "kind": {
+          "description": "Non-blank free-form target kind (for example npc, location, item, quest).",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "description": "Non-blank target reference (for example an entity_id, a name, or another stable identifier of the proposed destination).",
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "material_type": {
+      "description": "Required non-blank material linkage label: it must equal the referenced CI-02.1 material envelope's material_type. The envelope remains the material owner; the instruction references it rather than duplicating the payload.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "decision_id": {
+      "description": "Referenced CI-02 decision identity, using the exact intake_decision.schema.json grammar. It must resolve to a valid decision whose candidate_id equals this instruction's candidate_id and whose outcome is approved by human authority; a decision belonging to a different candidate fails closed.",
+      "type": "string",
+      "pattern": "^decision:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "collision_id": {
+      "description": "Referenced CI-03 collision-result identity, using the exact intake_collision.schema.json grammar. It must resolve to a valid collision result whose candidate_id equals this instruction's candidate_id and whose result is exactly clear; any other result (duplicate/stale/conflict/unresolved) fails closed.",
+      "type": "string",
+      "pattern": "^collision:[a-z0-9]+(-[a-z0-9]+)*(?![\\s\\S])"
+    },
+    "expected_collision_result": {
+      "description": "The instruction's explicit declared expectation about the referenced CI-03 result. It is exactly clear: promotion is only ever expected against an authoritative collision-clear result, and any other value is structurally impossible.",
+      "const": "clear"
+    },
+    "note": {
+      "description": "Optional non-blank human note about the promotion plan; logistics metadata only and never a source of authority.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}

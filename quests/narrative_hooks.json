@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "system": "Rolling High Club Narrative Hook Ledger",
+  "purpose": "Single current owner of active, dormant and current-day closed multi-day narrative Hooks.",
+  "day_status": "uninitialized",
+  "current_day": null,
+  "next_hook_id": "H01",
+  "active_hooks": [],
+  "dormant_hooks": [],
+  "closed_hooks_today": []
+}
